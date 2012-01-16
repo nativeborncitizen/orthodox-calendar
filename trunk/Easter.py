@@ -63,7 +63,5 @@ def getEasterDistance(date):
     выход: строка вида E[-]n
     """
     return 'E%d' % (date - getEasterDate(date.year)).days
-    
-def test:
-    pass
+
     
