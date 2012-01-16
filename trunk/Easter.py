@@ -64,3 +64,6 @@ def getEasterDistance(date):
     """
     return 'E%d' % (date - getEasterDate(date.year)).days
     
+def test:
+    pass
+    
