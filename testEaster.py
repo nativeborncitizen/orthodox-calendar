@@ -4,6 +4,7 @@ import Easter
 import CalendarReader
 import datetime
 import unittest
+import mocks
 
 class suite(unittest.TestCase):
     
@@ -52,6 +53,9 @@ class suite(unittest.TestCase):
         self.assertEqual(CalendarReader.parseCalendar('calendar.xml', ['07.01']),  "Рождество Господа и Спаса нашего Иисуса Христа.\n".decode('utf-8'))
         self.assertEqual(CalendarReader.parseCalendar('calendar.xml', ['07.01', 'E0']), "Рождество Господа и Спаса нашего Иисуса Христа.\nСветлое Христово Воскресение. Пасха.\n".decode('utf-8'))
         self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', ['07.01']))
+        
+    def testLoadCalendars(self):
+        self.assertEqual(CalendarReader.getCalendarFilenames(mocks.MockFile("[Calendar]\ncalendars = c1.xml,c2.xml"),  open = lambda s, t: s), ['c1.xml', 'c2.xml'])
     
 if __name__ == "__main__":
     unittest.main()

@@ -15,4 +15,4 @@ print Easter.dateToReadableStr(d)
 print "(%s ст. ст.)" % Easter.dateToReadableStr(Easter.newToOldStyle(d))
 print CalendarReader.parseCalendar('calendar.xml', [Easter.dateToStr(d),  Easter.getEasterDistance(d)])
 
-#...
+
