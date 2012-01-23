@@ -98,10 +98,10 @@ class suite(unittest.TestCase):
 #        self.assertTrue(d.isRightDate('19.01+1*w6'))
         
     def testIsDate(self):
-        self.assertTrue(Easter.isDate('19.01'))
-        self.assertTrue(Easter.isDate('E0'))
-        self.assertTrue(Easter.isDate('E-154'))
-        self.assertFalse(Easter.isDate('19.01+1*w6'))
+        self.assertTrue(RightDate.isStringFitInFormat('19.01', RightDate.DATE_OR_EASTER))
+        self.assertTrue(RightDate.isStringFitInFormat('E0', RightDate.DATE_OR_EASTER))
+        self.assertTrue(RightDate.isStringFitInFormat('E-154', RightDate.DATE_OR_EASTER))
+        self.assertTrue(RightDate.isStringFitInFormat('19.01+1*w6', RightDate.WEEKDAY_AFTER_DATE))
     
 if __name__ == "__main__":
     unittest.main()
