@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
+import re
+
+DATE_OR_EASTER = re.compile('\d\d\.\d\d$|E-?\d+$')
 
 def getEasterDate(year):
     """
@@ -64,4 +67,10 @@ def getEasterDistance(date):
     """
     return 'E%d' % (date - getEasterDate(date.year)).days
 
-    
+def isDate(s):
+    """
+    Проверка текста на соответствие формату дд.мм или E[-]n
+    вход: строка
+    выход: True/False
+    """
+    return DATE_OR_EASTER.match(s) is not None
