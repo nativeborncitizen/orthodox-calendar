@@ -3,6 +3,7 @@
 import Easter
 import CalendarReader
 import ConsoleVisualizer
+import RightDate
 import datetime
 import StringIO
 import unittest
@@ -14,6 +15,10 @@ class suite(unittest.TestCase):
 <days>
     <day>
         <date>01.01</date>
+        <text>ААА</text>
+    </day>
+    <day>
+        <date>14.04</date>
         <text>ААА</text>
     </day>
     <day>
@@ -67,10 +72,12 @@ class suite(unittest.TestCase):
     
     def testParseCalendar(self):
         self.CV.clear()
-        self.assertEqual(CalendarReader.parseCalendar(StringIO.StringIO(self.xml), ['01.01'],  self.CV, open = lambda s, t: s),  "ААА\n".decode('utf-8'))
+        CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012, 1, 1)),  self.CV, open = lambda s, t: s)
+        self.assertEqual(self.CV.__str__(),  "ААА\n".decode('utf-8'))
         self.CV.clear()
-        self.assertEqual(CalendarReader.parseCalendar(StringIO.StringIO(self.xml), ['01.01', 'E-1'], self.CV, open = lambda s, t: s), "ААА\nБББ\n".decode('utf-8'))
-        self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', ['07.01'], self.CV))
+        CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV, open = lambda s, t: s)
+        self.assertEqual(self.CV.__str__(), "ААА\nБББ\n".decode('utf-8'))
+        self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV))
         
     def testLoadCalendars(self):
         self.assertEqual(CalendarReader.getCalendarFilenames(StringIO.StringIO(self.config),  open = lambda s, t: s), ['c1.xml', 'c2.xml'])
@@ -81,6 +88,20 @@ class suite(unittest.TestCase):
         self.CV.add("ААА")
         self.CV.add("БББ")
         self.assertEqual(self.CV.__str__(), "ААА\nБББ\n")
+    
+    def testRightDate(self):
+        d = RightDate.RightDate(datetime.date(2012, 1, 1))
+        self.assertTrue(d.isRightDate('01.01'))
+        d = RightDate.RightDate(datetime.date(2012,  4,  15))
+        self.assertTrue(d.isRightDate('E0'))
+#        d = RightDate.RightDate(datetime.date(2012,  1,  21))
+#        self.assertTrue(d.isRightDate('19.01+1*w6'))
+        
+    def testIsDate(self):
+        self.assertTrue(Easter.isDate('19.01'))
+        self.assertTrue(Easter.isDate('E0'))
+        self.assertTrue(Easter.isDate('E-154'))
+        self.assertFalse(Easter.isDate('19.01+1*w6'))
     
 if __name__ == "__main__":
     unittest.main()

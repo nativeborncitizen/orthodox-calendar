@@ -1,6 +1,7 @@
+#! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-import Easter,  CalendarReader, ConsoleVisualizer,  sys,  datetime
+import Easter,  CalendarReader, ConsoleVisualizer,  RightDate, sys,  datetime
 
 CONFIG_FILE = 'cc.ini'
 
@@ -19,7 +20,7 @@ print Easter.dateToReadableStr(d)
 print "(%s ст. ст.)" % Easter.dateToReadableStr(Easter.newToOldStyle(d))
 for filename in CalendarReader.getCalendarFilenames(CONFIG_FILE):
     try:
-        CalendarReader.parseCalendar(filename, [Easter.dateToStr(d),  Easter.getEasterDistance(d)],  CV)
+        CalendarReader.parseCalendar(filename, RightDate.RightDate(d),  CV)
     except CalendarReader.CalendarFileError:
         pass
 print CV.__str__()
