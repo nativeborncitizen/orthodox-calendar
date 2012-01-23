@@ -5,7 +5,7 @@ import datetime
 import re
 
 DATE_OR_EASTER = re.compile('\d\d\.\d\d$|E-?\d+$') # дд.мм или E[-]n
-WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d[+-]\d+\*w\d$')
+WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d[+-]\d+\*w\d$') # шаблон для случаев вида "первая суббота по Богоявлении"
 
 def isStringFitInFormat(s,  format):
     """
@@ -33,7 +33,7 @@ class RightDate:
         """
         if isStringFitInFormat(xmlDate, DATE_OR_EASTER):
             return xmlDate in self.dateList
-        elif sStringFitInFormat(xmlDate, WEEKDAY_AFTER_DATE):
+        elif isStringFitInFormat(xmlDate, WEEKDAY_AFTER_DATE):
             return True
         else:
             return False

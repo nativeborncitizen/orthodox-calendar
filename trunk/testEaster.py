@@ -101,7 +101,7 @@ class suite(unittest.TestCase):
         self.assertTrue(RightDate.isStringFitInFormat('19.01', RightDate.DATE_OR_EASTER))
         self.assertTrue(RightDate.isStringFitInFormat('E0', RightDate.DATE_OR_EASTER))
         self.assertTrue(RightDate.isStringFitInFormat('E-154', RightDate.DATE_OR_EASTER))
-        self.assertTrue(RightDate.isStringFitInFormat('19.01+1*w6', RightDate.WEEKDAY_AFTER_DATE))
+        self.assertTrue(RightDate.isStringFitInFormat('19.01+0*w6', RightDate.WEEKDAY_AFTER_DATE))
     
 if __name__ == "__main__":
     unittest.main()
