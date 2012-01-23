@@ -8,13 +8,14 @@ class CalendarFileError(Exception):
     pass
 
 class CalendarParser(ContentHandler):
-    def __init__(self,  dateList):
+    def __init__(self,  dateList, visualizer):
         self.dateList = dateList
         self.isDate = False
         self.isText = False
         self.isRightDate = False
         self.date = ''
         self.text = ''
+        self.visualizer = visualizer
         
     def startElement(self, name, attr):
         if name == 'date':
@@ -37,18 +38,19 @@ class CalendarParser(ContentHandler):
 
         elif name == 'text':
             if self.isRightDate:
-                self.text += '\n'
+                self.visualizer.add(self.text)
+                self.text = ''
                 self.isRightDate = False
             self.isText = False
             
-def parseCalendar(filename, dateList):
+def parseCalendar(filename, dateList, visualizer, open = open):
     """
     Ищет в календаре совпадения с датой из списка дат
     вход: имя xml-файла с календарем и список дат
     выход: строка найденных соответствий
     """
     parser = xml.sax.make_parser()
-    Handler = CalendarParser(dateList)
+    Handler = CalendarParser(dateList, visualizer)
     parser.setContentHandler(Handler)
         
     try:
@@ -56,7 +58,7 @@ def parseCalendar(filename, dateList):
     except:
         raise CalendarFileError
     
-    return Handler.text
+    return Handler.visualizer.__str__()
     
 def getCalendarFilenames(configFile,  open = open):
     Config = ConfigParser.ConfigParser()
