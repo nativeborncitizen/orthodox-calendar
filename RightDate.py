@@ -5,7 +5,7 @@ import datetime
 import re
 
 DATE_OR_EASTER = re.compile('\d\d\.\d\d$|E-?\d+$') # дд.мм или E[-]n
-WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d[+-]\d+\*w\d$') # шаблон для случаев вида "первая суббота по Богоявлении"
+WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d\+\d\d\*w\d$') # шаблон для случаев вида "первая суббота по Богоявлении"
 
 def isStringFitInFormat(s,  format):
     """
@@ -23,17 +23,21 @@ class RightDate:
         """
         Конструктор
         вход: дата, для которой нужно получить календарь
-        """
+       """
+        self.date = date
         self.dateList = [Easter.dateToStr(date),  Easter.getEasterDistance(date)]
     
     def isRightDate(self,  xmlDate):
         """
         Проверка, соответствует ли выбранная дата той, которая найдена в XML-файле
         вход: дата из XML-файла
-        """
+       """
         if isStringFitInFormat(xmlDate, DATE_OR_EASTER):
             return xmlDate in self.dateList
         elif isStringFitInFormat(xmlDate, WEEKDAY_AFTER_DATE):
-            return True
+            d, m = xmlDate[0 : 5].split('.')
+            n = xmlDate[6 : 8]
+            w = xmlDate[-1]
+            return self.date == Easter.getWeekdayAfterDate(int(d), int(m), self.date.year, int(n), int(w))
         else:
             return False
