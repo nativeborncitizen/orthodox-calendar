@@ -74,7 +74,7 @@ def getWeekdayAfterDate(d, m, y, n, w):
     """
     holiday = datetime.date(y, m, d)
     dist = w - int(holiday.isoweekday())
-    if dist < 0:
+    if dist <= 0:
         dist += 7
     weeks = (n - 1) * 7
     dist += weeks

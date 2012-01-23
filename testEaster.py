@@ -108,6 +108,7 @@ class suite(unittest.TestCase):
         self.assertEqual(Easter.getWeekdayAfterDate(19, 1, 2012, 1, 6), datetime.date(2012, 1, 21))
         self.assertEqual(Easter.getWeekdayAfterDate(15, 2, 2012, 4, 5), datetime.date(2012, 3, 9))
         self.assertEqual(Easter.getWeekdayAfterDate(15, 2, 2012, 1, 0), datetime.date(2012, 2, 19))
+        self.assertEqual(Easter.getWeekdayAfterDate(19, 1, 2013, 1, 6), datetime.date(2013, 1, 26))
     
 if __name__ == "__main__":
     unittest.main()
