@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import Easter,  CalendarReader, sys,  datetime
+import Easter,  CalendarReader, ConsoleVisualizer,  sys,  datetime
+
+CONFIG_FILE = 'cc.ini'
 
 d = datetime.date.today()
 
@@ -11,8 +13,15 @@ if len(sys.argv) > 1:
     except:
         print "Неверная дата"
     
+CV = ConsoleVisualizer.ConsoleVisualizer()
+
 print Easter.dateToReadableStr(d)
 print "(%s ст. ст.)" % Easter.dateToReadableStr(Easter.newToOldStyle(d))
-print CalendarReader.parseCalendar('calendar.xml', [Easter.dateToStr(d),  Easter.getEasterDistance(d)])
+for filename in CalendarReader.getCalendarFilenames(CONFIG_FILE):
+    try:
+        CalendarReader.parseCalendar(filename, [Easter.dateToStr(d),  Easter.getEasterDistance(d)],  CV)
+    except CalendarReader.CalendarFileError:
+        pass
+print CV.__str__()
 
 
