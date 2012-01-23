@@ -2,10 +2,27 @@
 
 import Easter
 import CalendarReader
+import ConsoleVisualizer
 import datetime
+import StringIO
 import unittest
 
 class suite(unittest.TestCase):
+    
+    def setUp(self):
+        self.xml = """<?xml version='1.0' encoding='utf-8'?>
+<days>
+    <day>
+        <date>01.01</date>
+        <text>ААА</text>
+    </day>
+    <day>
+        <date>E-1</date>
+        <text>БББ</text>
+    </day>
+</days>"""
+        self.config = "[Calendar]\ncalendars = c1.xml,c2.xml"
+        self.CV = ConsoleVisualizer.ConsoleVisualizer()
     
     def testOldToNewStyle(self):
         self.assertEqual(Easter.oldToNewStyle(datetime.date(2011,  12,  24)),  datetime.date(2012,  1,  6))
@@ -49,13 +66,21 @@ class suite(unittest.TestCase):
         self.assertEqual(Easter.getEasterDistance(datetime.date(2020,  4,  18)), 'E-1')
     
     def testParseCalendar(self):
-        self.assertEqual(CalendarReader.parseCalendar('calendar.xml', ['07.01']),  "Рождество Господа и Спаса нашего Иисуса Христа.\n".decode('utf-8'))
-        self.assertEqual(CalendarReader.parseCalendar('calendar.xml', ['07.01', 'E0']), "Рождество Господа и Спаса нашего Иисуса Христа.\nСветлое Христово Воскресение. Пасха.\n".decode('utf-8'))
-        self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', ['07.01']))
+        self.CV.clear()
+        self.assertEqual(CalendarReader.parseCalendar(StringIO.StringIO(self.xml), ['01.01'],  self.CV, open = lambda s, t: s),  "ААА\n".decode('utf-8'))
+        self.CV.clear()
+        self.assertEqual(CalendarReader.parseCalendar(StringIO.StringIO(self.xml), ['01.01', 'E-1'], self.CV, open = lambda s, t: s), "ААА\nБББ\n".decode('utf-8'))
+        self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', ['07.01'], self.CV))
         
     def testLoadCalendars(self):
-        import StringIO
-        self.assertEqual(CalendarReader.getCalendarFilenames(StringIO.StringIO("[Calendar]\ncalendars = c1.xml,c2.xml"),  open = lambda s, t: s), ['c1.xml', 'c2.xml'])
+        self.assertEqual(CalendarReader.getCalendarFilenames(StringIO.StringIO(self.config),  open = lambda s, t: s), ['c1.xml', 'c2.xml'])
+        
+    def testConsoleVisualizer(self):
+        self.CV.clear()
+        self.assertEqual(self.CV.__str__(), "")
+        self.CV.add("ААА")
+        self.CV.add("БББ")
+        self.assertEqual(self.CV.__str__(), "ААА\nБББ\n")
     
 if __name__ == "__main__":
     unittest.main()
