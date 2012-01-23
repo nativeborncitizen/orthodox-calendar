@@ -63,3 +63,19 @@ def getEasterDistance(date):
     выход: строка вида E[-]n
     """
     return 'E%d' % (date - getEasterDate(date.year)).days
+
+def getWeekdayAfterDate(d, m, y, n, w):
+    """
+    Определение даты n-ого дня недели после даты
+    вход: d, m, y - дата, от которой ведется рассчет
+    вход: n - какой по счету день недели после указанного
+    вход: w - какой день недели (воскресенье - 0)
+    выход: дата
+    """
+    holiday = datetime.date(y, m, d)
+    dist = w - int(holiday.isoweekday())
+    if dist < 0:
+        dist += 7
+    weeks = (n - 1) * 7
+    dist += weeks
+    return holiday + datetime.timedelta(days = dist)

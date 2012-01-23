@@ -94,14 +94,20 @@ class suite(unittest.TestCase):
         self.assertTrue(d.isRightDate('01.01'))
         d = RightDate.RightDate(datetime.date(2012,  4,  15))
         self.assertTrue(d.isRightDate('E0'))
-#        d = RightDate.RightDate(datetime.date(2012,  1,  21))
-#        self.assertTrue(d.isRightDate('19.01+1*w6'))
+        d = RightDate.RightDate(datetime.date(2012,  1,  21))
+        self.assertTrue(d.isRightDate('19.01+01*w6'))
         
-    def testIsDate(self):
+    def testIsStringFitInFormat(self):
         self.assertTrue(RightDate.isStringFitInFormat('19.01', RightDate.DATE_OR_EASTER))
         self.assertTrue(RightDate.isStringFitInFormat('E0', RightDate.DATE_OR_EASTER))
         self.assertTrue(RightDate.isStringFitInFormat('E-154', RightDate.DATE_OR_EASTER))
-        self.assertTrue(RightDate.isStringFitInFormat('19.01+0*w6', RightDate.WEEKDAY_AFTER_DATE))
+        self.assertTrue(RightDate.isStringFitInFormat('19.01+01*w6', RightDate.WEEKDAY_AFTER_DATE))
+        
+    def testWeekdayAfterDate(self):
+        self.assertEqual(Easter.getWeekdayAfterDate(1, 1, 2012, 1, 6), datetime.date(2012, 1, 7))
+        self.assertEqual(Easter.getWeekdayAfterDate(19, 1, 2012, 1, 6), datetime.date(2012, 1, 21))
+        self.assertEqual(Easter.getWeekdayAfterDate(15, 2, 2012, 4, 5), datetime.date(2012, 3, 9))
+        self.assertEqual(Easter.getWeekdayAfterDate(15, 2, 2012, 1, 0), datetime.date(2012, 2, 19))
     
 if __name__ == "__main__":
     unittest.main()
