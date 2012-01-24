@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
 
+DAYS_IN_A_WEEK = 7
+
 def getEasterDate(year):
     """
     Определение даты Пасхи по формуле К.Ф. Гаусса
@@ -69,13 +71,33 @@ def getWeekdayAfterDate(d, m, y, n, w):
     Определение даты n-ого дня недели после даты
     вход: d, m, y - дата, от которой ведется рассчет
     вход: n - какой по счету день недели после указанного
-    вход: w - какой день недели (воскресенье - 0)
+    вход: w - какой день недели (понедельник - 1)
     выход: дата
     """
     holiday = datetime.date(y, m, d)
-    dist = w - int(holiday.isoweekday())
-    if dist <= 0:
-        dist += 7
-    weeks = (n - 1) * 7
+    weekDayOfHoliday = holiday.isoweekday()
+    if weekDayOfHoliday < w:
+        dist = w - weekDayOfHoliday
+    else:
+        dist = DAYS_IN_A_WEEK - weekDayOfHoliday + w
+    weeks = (n - 1) * DAYS_IN_A_WEEK
     dist += weeks
     return holiday + datetime.timedelta(days = dist)
+
+def getWeekdayBeforeDate(d, m, y, n, w):
+    """
+    Определение даты n-ого дня недели перед датой
+    вход: d, m, y - дата, от которой ведется рассчет
+    вход: n - какой по счету день недели после указанного
+    вход: w - какой день недели (понедельник - 1)
+    выход: дата
+    """
+    holiday = datetime.date(y, m, d)
+    weekDayOfHoliday = holiday.isoweekday()
+    if weekDayOfHoliday > w:
+        dist = weekDayOfHoliday - w
+    else:
+        dist = weekDayOfHoliday + DAYS_IN_A_WEEK - w
+    weeks = (n - 1) * DAYS_IN_A_WEEK
+    dist += weeks
+    return holiday - datetime.timedelta(days = dist)
