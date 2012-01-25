@@ -22,19 +22,19 @@ try:
 except getopt.GetoptError, err:
     usage()
 
-if len(opts) != 1:
+if len(opts) == 1:
+    o, a = opts[0]
+
+    if o == "-c":
+        getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromConfig, 'cc.ini')
+    elif o == "-f":
+        getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromConfig, a)
+    elif o == "-d":
+        getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromDir, a)
+    else:
+        print "%s - ошибочная опция\n" % o
+elif len(opts) > 1:
     usage()
-
-o, a = opts[0]
-
-if o == "-c":
-    getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromConfig, 'cc.ini')
-elif o == "-f":
-    getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromConfig, a)
-elif o == "-d":
-    getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromDir, a)
-else:
-    print "%s - ошибочная опция\n" % o
 
 if len(args) == 1:
     try:
