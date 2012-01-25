@@ -11,38 +11,31 @@ class CalendarFileError(Exception):
 class CalendarParser(ContentHandler):
     def __init__(self,  dateTester, visualizer):
         self.dateTester = dateTester
-        self.isDate = False
         self.isText = False
         self.isRightDate = False
-        self.date = ''
         self.text = ''
         self.visualizer = visualizer
         
-    def startElement(self, name, attr):
-        if name == 'date':
-            self.isDate = True
+    def startElement(self, name, attrs):
+        if name == 'day':
+            if self.dateTester.isRightDate(attrs.get('date')):
+                self.isRightDate = True
         elif name == 'text' and self.isRightDate:
             self.isText = True
-            
+                    
     def characters(self, ch):
-        if self.isDate:
-            self.date += ch
         if self.isText:
             self.text += ch
     
     def endElement(self, name):
-        if name == 'date':
-            if self.dateTester.isRightDate(self.date):
-                self.isRightDate = True
-            self.date = ''
-            self.isDate = False
-
-        elif name == 'text':
+        if name == 'text':
             if self.isRightDate:
                 self.visualizer.add(self.text)
                 self.text = ''
-                self.isRightDate = False
             self.isText = False
+            
+        elif name == 'day':
+            self.isRightDate = False
             
 def parseCalendar(filename, dateTester, visualizer, open = open):
     """

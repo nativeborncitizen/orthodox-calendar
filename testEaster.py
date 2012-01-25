@@ -13,16 +13,14 @@ class suite(unittest.TestCase):
     def setUp(self):
         self.xml = """<?xml version='1.0' encoding='utf-8'?>
 <days>
-    <day>
-        <date>01.01</date>
+    <day date = '01.01'>
+        <text>АА1</text>
+        <text>АА2</text>
+    </day>
+    <day date = '14.04'>
         <text>ААА</text>
     </day>
-    <day>
-        <date>14.04</date>
-        <text>ААА</text>
-    </day>
-    <day>
-        <date>E-1</date>
+    <day date = 'E-1'>
         <text>БББ</text>
     </day>
 </days>"""
@@ -73,7 +71,7 @@ class suite(unittest.TestCase):
     def testParseCalendar(self):
         self.CV.clear()
         CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012, 1, 1)),  self.CV, open = lambda s, t: s)
-        self.assertEqual(self.CV.__str__(),  "ААА\n".decode('utf-8'))
+        self.assertEqual(self.CV.__str__(),  "АА1\nАА2\n".decode('utf-8'))
         self.CV.clear()
         CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV, open = lambda s, t: s)
         self.assertEqual(self.CV.__str__(), "ААА\nБББ\n".decode('utf-8'))
