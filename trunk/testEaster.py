@@ -15,7 +15,8 @@ class suite(unittest.TestCase):
 <days>
     <day date = '01.01'>
         <text>АА1</text>
-        <text>АА2</text>
+        <text score = '0'>АА2</text>
+        <text score = '12'>АА3</text>
     </day>
     <day date = '14.04'>
         <text>ААА</text>
@@ -71,10 +72,10 @@ class suite(unittest.TestCase):
     def testParseCalendar(self):
         self.CV.clear()
         CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012, 1, 1)),  self.CV, open = lambda s, t: s)
-        self.assertEqual(self.CV.__str__(),  "АА1\nАА2\n".decode('utf-8'))
+        self.assertEqual(self.CV.__str__(),  "АА2\nАА3\nАА1".decode('utf-8'))
         self.CV.clear()
         CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV, open = lambda s, t: s)
-        self.assertEqual(self.CV.__str__(), "ААА\nБББ\n".decode('utf-8'))
+        self.assertEqual(self.CV.__str__(), "ААА\nБББ".decode('utf-8'))
         self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV))
         
     def testLoadCalendars(self):
@@ -83,9 +84,9 @@ class suite(unittest.TestCase):
     def testConsoleVisualizer(self):
         self.CV.clear()
         self.assertEqual(self.CV.__str__(), "")
-        self.CV.add("ААА")
-        self.CV.add("БББ")
-        self.assertEqual(self.CV.__str__(), "ААА\nБББ\n")
+        self.CV.add("ААА",  1)
+        self.CV.add("БББ",  0)
+        self.assertEqual(self.CV.__str__(), "БББ\nААА")
     
     def testRightDate(self):
         d = RightDate.RightDate(datetime.date(2012, 1, 1))

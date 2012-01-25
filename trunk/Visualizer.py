@@ -5,20 +5,21 @@ class Visualizer:
     Базовый класс для формирования форматированной строки
     """
     def __init__(self):
-        self._s = ""
-        
-    def add(self,  s):
+        self._s = []
+            
+    def add(self, text,  score):
         """
-        Добавить в буфер новую строку с описанием дня
-        вход - строка для добавления
+        Добавление новой строки
+        вход: строка
+        вход: вес для сортировки
         """
-        pass
+        self._s.append((text,  score))
         
     def clear(self):
         """
         Очистить содержимое буфера
         """
-        self._s = ""
+        self._s = []
         
     def __str__(self):
         return self._s
