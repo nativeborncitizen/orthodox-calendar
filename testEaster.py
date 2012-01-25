@@ -4,6 +4,7 @@ import Easter
 import CalendarReader
 import ConsoleVisualizer
 import RightDate
+import CalendarLocator
 import datetime
 import StringIO
 import unittest
@@ -79,7 +80,7 @@ class suite(unittest.TestCase):
         self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV))
         
     def testLoadCalendars(self):
-        self.assertEqual(CalendarReader.getCalendarFilenames(StringIO.StringIO(self.config),  open = lambda s, t: s), ['c1.xml', 'c2.xml'])
+        self.assertEqual(CalendarLocator.getCalendarFilenamesFromConfig(StringIO.StringIO(self.config),  open = lambda s, t: s), ['c1.xml', 'c2.xml'])
         
     def testConsoleVisualizer(self):
         self.CV.clear()
@@ -120,7 +121,16 @@ class suite(unittest.TestCase):
         self.assertEqual(Easter.getWeekdayBeforeDate(15, 2, 2012, 4, 5), datetime.date(2012, 1, 20))
         self.assertEqual(Easter.getWeekdayBeforeDate(15, 2, 2012, 1, 0), datetime.date(2012, 2, 12))
         self.assertEqual(Easter.getWeekdayBeforeDate(19, 1, 2013, 1, 6), datetime.date(2013, 1, 12))
-    
+        
+    def testGetWeekdayStr(self):
+        self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 1)), 'Воскресенье')
+        self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 2)), 'Понедельник')
+        self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 3)), 'Вторник')
+        self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 4)), 'Среда')
+        self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 5)), 'Четверг')
+        self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 6)), 'Пятница')
+        self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 7)), 'Суббота')
+            
 if __name__ == "__main__":
     unittest.main()
     

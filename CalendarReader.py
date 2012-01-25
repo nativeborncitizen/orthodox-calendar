@@ -3,7 +3,6 @@
 import RightDate
 import xml.sax
 from xml.sax.handler import ContentHandler
-import ConfigParser
 
 class CalendarFileError(Exception):
     pass
@@ -56,10 +55,7 @@ def parseCalendar(filename, dateTester, visualizer, open = open):
     except:
         raise CalendarFileError
     
-def getCalendarFilenames(configFile,  open = open):
-    Config = ConfigParser.ConfigParser()
-    Config.readfp(open(configFile, 'r'))
-    return Config.get('Calendar',  'calendars').split(',')
+
     
 
     

@@ -101,3 +101,10 @@ def getWeekdayBeforeDate(d, m, y, n, w):
     weeks = (n - 1) * DAYS_IN_A_WEEK
     dist += weeks
     return holiday - datetime.timedelta(days = dist)
+
+def getWeekdayStr(d):
+    """
+    Определение дня недели в удобочитаемом виде
+    вход: строка
+    """
+    return ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'][d.weekday()]
