@@ -8,6 +8,8 @@ import ConfigParser
 class CalendarFileError(Exception):
     pass
 
+MAX_SCORE = 1000 # Вес праздника по умолчанию
+
 class CalendarParser(ContentHandler):
     def __init__(self,  dateTester, visualizer):
         self.dateTester = dateTester
@@ -15,12 +17,14 @@ class CalendarParser(ContentHandler):
         self.isRightDate = False
         self.text = ''
         self.visualizer = visualizer
+        self.score = MAX_SCORE
         
     def startElement(self, name, attrs):
         if name == 'day':
             if self.dateTester.isRightDate(attrs.get('date')):
                 self.isRightDate = True
         elif name == 'text' and self.isRightDate:
+            self.score = int(attrs.get('score',  MAX_SCORE))
             self.isText = True
                     
     def characters(self, ch):
@@ -30,7 +34,7 @@ class CalendarParser(ContentHandler):
     def endElement(self, name):
         if name == 'text':
             if self.isRightDate:
-                self.visualizer.add(self.text)
+                self.visualizer.add(self.text,  self.score)
                 self.text = ''
             self.isText = False
             
