@@ -66,41 +66,39 @@ def getEasterDistance(date):
     """
     return 'E%d' % (date - getEasterDate(date.year)).days
 
-def getWeekdayAfterDate(d, m, y, n, w):
+def getWeekdayAfterDate(d, n, w):
     """
     Определение даты n-ого дня недели после даты
-    вход: d, m, y - дата, от которой ведется рассчет
+    вход: d - дата, от которой ведется рассчет
     вход: n - какой по счету день недели после указанного
     вход: w - какой день недели (понедельник - 1)
     выход: дата
     """
-    holiday = datetime.date(y, m, d)
-    weekDayOfHoliday = holiday.isoweekday()
+    weekDayOfHoliday = d.isoweekday()
     if weekDayOfHoliday < w:
         dist = w - weekDayOfHoliday
     else:
         dist = DAYS_IN_A_WEEK - weekDayOfHoliday + w
     weeks = (n - 1) * DAYS_IN_A_WEEK
     dist += weeks
-    return holiday + datetime.timedelta(days = dist)
+    return d + datetime.timedelta(days = dist)
 
-def getWeekdayBeforeDate(d, m, y, n, w):
+def getWeekdayBeforeDate(d, n, w):
     """
     Определение даты n-ого дня недели перед датой
-    вход: d, m, y - дата, от которой ведется рассчет
+    вход: d - дата, от которой ведется рассчет
     вход: n - какой по счету день недели после указанного
     вход: w - какой день недели (понедельник - 1)
     выход: дата
     """
-    holiday = datetime.date(y, m, d)
-    weekDayOfHoliday = holiday.isoweekday()
+    weekDayOfHoliday = d.isoweekday()
     if weekDayOfHoliday > w:
         dist = weekDayOfHoliday - w
     else:
         dist = weekDayOfHoliday + DAYS_IN_A_WEEK - w
     weeks = (n - 1) * DAYS_IN_A_WEEK
     dist += weeks
-    return holiday - datetime.timedelta(days = dist)
+    return d - datetime.timedelta(days = dist)
 
 def getWeekdayStr(d):
     """
