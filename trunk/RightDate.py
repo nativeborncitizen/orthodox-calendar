@@ -7,6 +7,7 @@ import re
 DATE = re.compile('\d\d\.\d\d$') # E[-]n
 EASTER = re.compile('E-?\d+$') # E[-]n
 WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d[-+]\d\d\*w[1-7]') # шаблон для случаев вида "первая суббота по Богоявлении"
+WEEKDAY_NEAREST_DATE = re.compile('\d\d\.\d\d~w[1-7]') # шаблон для случаев вида "ближайшее воскресенье к ..."
 
 def isStringFitInFormat(s,  format):
     """
@@ -49,9 +50,16 @@ class RightDate:
             w = xmlDate[-1]
             date = datetime.date(self.date.year, int(m), int(d))
             if xmlDate[5] == '+':
-                passDate = Easter.dateToStr(Easter.getWeekdayAfterDate(date, int(n), int(w)))
+                s = 1
             else:
-                passDate = Easter.dateToStr(Easter.getWeekdayBeforeDate(date, int(n), int(w)))
+                s = -1
+            passDate = Easter.dateToStr(Easter.getWeekdayFromDate(date, int(n), int(w), s))
+            return self.strDate == passDate
+        elif isStringFitInFormat(xmlDate, WEEKDAY_NEAREST_DATE):
+            d, m = xmlDate[0 : 5].split('.')
+            w = xmlDate[-1]
+            date = datetime.date(self.date.year, int(m), int(d))
+            passDate = Easter.dateToStr(Easter.getNearestWeekday(date, int(w)))
             return self.strDate == passDate
         else:
             return False
