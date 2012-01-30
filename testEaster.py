@@ -100,6 +100,8 @@ class suite(unittest.TestCase):
         self.assertTrue(d.isRightDate('19.01-02*w3'))
         d = RightDate.RightDate(datetime.date(2012,  1,  11))
         self.assertTrue(d.isRightDate('10.01:20.01'))
+        d = RightDate.RightDate(datetime.date(2012,  1,  21))
+        self.assertTrue(d.isRightDate('19.01~w6'))
         
     def testIsStringFitInFormat(self):
         self.assertTrue(RightDate.isStringFitInFormat('19.01', RightDate.DATE))
@@ -107,25 +109,24 @@ class suite(unittest.TestCase):
         self.assertTrue(RightDate.isStringFitInFormat('E-154', RightDate.EASTER))
         self.assertTrue(RightDate.isStringFitInFormat('19.01+01*w6', RightDate.WEEKDAY_AFTER_DATE))
         self.assertTrue(RightDate.isStringFitInFormat('19.01-11*w1', RightDate.WEEKDAY_AFTER_DATE))
+        self.assertTrue(RightDate.isStringFitInFormat('19.01~w1', RightDate.WEEKDAY_NEAREST_DATE))
         self.assertFalse(RightDate.isStringFitInFormat('aaa', RightDate.WEEKDAY_AFTER_DATE))
         self.assertFalse(RightDate.isStringFitInFormat('aaa', RightDate.DATE))
         self.assertFalse(RightDate.isStringFitInFormat('aaa', RightDate.EASTER))
         
-    def testWeekdayAfterDate(self):
-        self.assertEqual(Easter.getWeekdayAfterDate(datetime.date(2012, 1, 1), 1, 6), datetime.date(2012, 1, 7))
-        self.assertEqual(Easter.getWeekdayAfterDate(datetime.date(2012, 1, 14), 1, 7), datetime.date(2012, 1, 15))
-        self.assertEqual(Easter.getWeekdayAfterDate(datetime.date(2012, 1, 19), 1, 6), datetime.date(2012, 1, 21))
-        self.assertEqual(Easter.getWeekdayAfterDate(datetime.date(2012, 2, 15), 4, 5), datetime.date(2012, 3, 9))
-        self.assertEqual(Easter.getWeekdayAfterDate(datetime.date(2012, 2, 15), 1, 7), datetime.date(2012, 2, 19))
-        self.assertEqual(Easter.getWeekdayAfterDate(datetime.date(2013, 1, 19), 1, 6), datetime.date(2013, 1, 26))
-        
-    def testWeekdayBeforeDate(self):
-        self.assertEqual(Easter.getWeekdayBeforeDate(datetime.date(2012, 1, 1), 1, 6), datetime.date(2011, 12, 31))
-        self.assertEqual(Easter.getWeekdayBeforeDate(datetime.date(2012, 1, 19), 1, 6), datetime.date(2012, 1, 14))
-        self.assertEqual(Easter.getWeekdayBeforeDate(datetime.date(2012, 1, 10), 1, 2), datetime.date(2012, 1, 3))
-        self.assertEqual(Easter.getWeekdayBeforeDate(datetime.date(2012, 2, 15), 4, 5), datetime.date(2012, 1, 20))
-        self.assertEqual(Easter.getWeekdayBeforeDate(datetime.date(2012, 2, 15), 1, 0), datetime.date(2012, 2, 12))
-        self.assertEqual(Easter.getWeekdayBeforeDate(datetime.date(2013, 1, 19), 1, 6), datetime.date(2013, 1, 12))
+    def testGetWeekdayFromDate(self):
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 1, 1), 1, 6, 1), datetime.date(2012, 1, 7))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 1, 14), 1, 7, 1), datetime.date(2012, 1, 15))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 1, 19), 1, 6, 1), datetime.date(2012, 1, 21))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 2, 15), 4, 5, 1), datetime.date(2012, 3, 9))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 2, 15), 1, 7, 1), datetime.date(2012, 2, 19))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2013, 1, 19), 1, 6, 1), datetime.date(2013, 1, 26))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 1, 1), 1, 6, -1), datetime.date(2011, 12, 31))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 1, 19), 1, 6, -1), datetime.date(2012, 1, 14))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 1, 10), 1, 2, -1), datetime.date(2012, 1, 3))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 2, 15), 4, 5, -1), datetime.date(2012, 1, 20))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2012, 2, 15), 1, 0, -1), datetime.date(2012, 2, 12))
+        self.assertEqual(Easter.getWeekdayFromDate(datetime.date(2013, 1, 19), 1, 6, -1), datetime.date(2013, 1, 12))
         
     def testGetWeekdayStr(self):
         self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 1)), 'Воскресенье')
@@ -135,7 +136,19 @@ class suite(unittest.TestCase):
         self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 5)), 'Четверг')
         self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 6)), 'Пятница')
         self.assertEqual(Easter.getWeekdayStr(datetime.date(2012, 1, 7)), 'Суббота')
-            
+        
+    def testGetWeekdayAfterDist(self):
+        self.assertEqual(Easter.getWeekdayAfterDist(3, 6), 3)
+        self.assertEqual(Easter.getWeekdayAfterDist(3, 1), 5)
+    
+    def testGetWeekdayDtforeDist(self):
+        self.assertEqual(Easter.getWeekdayBeforeDist(3, 6), 4)
+        self.assertEqual(Easter.getWeekdayBeforeDist(3, 1), 2)
+    
+    def testGetNearestWeekday(self):
+        self.assertEqual(Easter.getNearestWeekday(datetime.date(2012, 1, 19), 6), datetime.date(2012, 1, 21))
+        self.assertEqual(Easter.getNearestWeekday(datetime.date(2013, 1, 19), 6), datetime.date(2013, 1, 19))
+    
 if __name__ == "__main__":
     unittest.main()
     
