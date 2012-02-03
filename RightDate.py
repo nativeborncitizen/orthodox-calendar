@@ -38,8 +38,18 @@ class RightDate:
        """
         if ':' in xmlDate: # интервал
             dates = xmlDate.split(':')
+            l = []
             
-            return True
+            for date in dates:
+                if isStringFitInFormat(date, DATE):
+                    l.append(Easter.strToDate(date, self.date.year))
+                elif isStringFitInFormat(date, EASTER):
+                    l.append(Easter.getDateFromEasterDistance(date, self.date.year))
+                else:
+                    return False
+
+            return l[0] <= self.date <= l[1]
+            
         elif isStringFitInFormat(xmlDate, DATE):
             return xmlDate == self.strDate
         elif isStringFitInFormat(xmlDate, EASTER):

@@ -25,6 +25,9 @@ class suite(unittest.TestCase):
     <day date = 'E-1'>
         <text>БББ</text>
     </day>
+    <day date = 'E-5:E-4'>
+        <text>ВВВ</text>
+    </day>
 </days>"""
         self.config = "[Calendar]\ncalendars = c1.xml,c2.xml"
         self.CV = ConsoleVisualizer.ConsoleVisualizer()
@@ -64,6 +67,11 @@ class suite(unittest.TestCase):
     def testDateToStr(self):
         self.assertEqual(Easter.dateToStr(datetime.date(2020,  4,  19)),  "19.04")
         self.assertEqual(Easter.dateToStr(datetime.date(2020,  1,  19)),  "19.01")
+        
+    def testStrToDate(self):
+        self.assertEqual(Easter.strToDate("19.04", 2020), datetime.date(2020,  4,  19))
+        self.assertEqual(Easter.strToDate("19.01", 2020), datetime.date(2020,  1,  19))
+    
 
     def testEasterDistanceFromDate(self):
         self.assertEqual(Easter.getEasterDistanceFromDate(datetime.date(2020,  4,  19)), 'E0')
@@ -82,6 +90,9 @@ class suite(unittest.TestCase):
         self.CV.clear()
         CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV, open = lambda s, t: s)
         self.assertEqual(self.CV.__str__(), "ААА\nБББ".decode('utf-8'))
+        self.CV.clear()
+        CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012,  4,  11)), self.CV, open = lambda s, t: s)
+        self.assertEqual(self.CV.__str__(), "ВВВ".decode('utf-8'))
         self.assertRaises(CalendarReader.CalendarFileError, lambda : CalendarReader.parseCalendar('calendar1.xml', RightDate.RightDate(datetime.date(2012,  4,  14)), self.CV))
         
     def testLoadCalendars(self):
@@ -105,6 +116,14 @@ class suite(unittest.TestCase):
         self.assertTrue(d.isRightDate('19.01-02*w3'))
         d = RightDate.RightDate(datetime.date(2012,  1,  11))
         self.assertTrue(d.isRightDate('10.01:20.01'))
+        d = RightDate.RightDate(datetime.date(2012,  4,  14))
+        self.assertTrue(d.isRightDate('13.04:E0'))
+        d = RightDate.RightDate(datetime.date(2012,  4,  13))
+        self.assertTrue(d.isRightDate('13.04:E0'))
+        d = RightDate.RightDate(datetime.date(2012,  4,  12))
+        self.assertFalse(d.isRightDate('13.04:E0'))
+        d = RightDate.RightDate(datetime.date(2012,  4,  12))
+        self.assertFalse(d.isRightDate('13.04:ass'))
         d = RightDate.RightDate(datetime.date(2012,  1,  21))
         self.assertTrue(d.isRightDate('19.01~w6'))
         
