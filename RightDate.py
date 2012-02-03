@@ -28,7 +28,7 @@ class RightDate:
        """
         self.date = date
         self.strDate = Easter.dateToStr(date)
-        self.distEaster = Easter.getEasterDistance(date)
+        self.distEaster = Easter.getEasterDistanceFromDate(date)
     
     def isRightDate(self,  xmlDate):
         """

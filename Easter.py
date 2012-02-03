@@ -58,13 +58,22 @@ def dateToStr(date):
     """
     return date.strftime('%d.%m')
 
-def getEasterDistance(date):
+def getEasterDistanceFromDate(date):
     """
     Определение количества дней до Пасхи
     вход: дата
     выход: строка вида E[-]n
     """
     return 'E%d' % (date - getEasterDate(date.year)).days
+    
+def getDateFromEasterDistance(dist, year):
+    """
+    Определение даты по количеству дней до Пасхи
+    вход: строка вида E[-]n
+    вход: год
+    выход: дата
+    """
+    return getEasterDate(year) + datetime.timedelta(days = int(dist[1:]))
     
 def getWeekdayAfterDist(d, a):
     """
