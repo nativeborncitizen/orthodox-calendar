@@ -65,11 +65,16 @@ class suite(unittest.TestCase):
         self.assertEqual(Easter.dateToStr(datetime.date(2020,  4,  19)),  "19.04")
         self.assertEqual(Easter.dateToStr(datetime.date(2020,  1,  19)),  "19.01")
 
-    def testEasterDistance(self):
-        self.assertEqual(Easter.getEasterDistance(datetime.date(2020,  4,  19)), 'E0')
-        self.assertEqual(Easter.getEasterDistance(datetime.date(2020,  4,  20)), 'E1')
-        self.assertEqual(Easter.getEasterDistance(datetime.date(2020,  4,  18)), 'E-1')
-    
+    def testEasterDistanceFromDate(self):
+        self.assertEqual(Easter.getEasterDistanceFromDate(datetime.date(2020,  4,  19)), 'E0')
+        self.assertEqual(Easter.getEasterDistanceFromDate(datetime.date(2020,  4,  20)), 'E1')
+        self.assertEqual(Easter.getEasterDistanceFromDate(datetime.date(2020,  4,  18)), 'E-1')
+
+    def testDateFromEasterDistance(self):
+        self.assertEqual(Easter.getDateFromEasterDistance('E0', 2020), datetime.date(2020,  4,  19))
+        self.assertEqual(Easter.getDateFromEasterDistance('E1', 2020), datetime.date(2020,  4,  20))
+        self.assertEqual(Easter.getDateFromEasterDistance('E-1', 2020), datetime.date(2020,  4,  18))
+        
     def testParseCalendar(self):
         self.CV.clear()
         CalendarReader.parseCalendar(StringIO.StringIO(self.xml), RightDate.RightDate(datetime.date(2012, 1, 1)),  self.CV, open = lambda s, t: s)
