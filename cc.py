@@ -1,8 +1,17 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-import Easter,  CalendarReader, ConsoleVisualizer, CalendarLocator, RightDate
-import sys, datetime, getopt,  functools
+import sys
+import datetime
+import getopt
+import functools
+
+import Easter
+import CalendarReader
+import ConsoleVisualizer
+import CalendarLocator
+import RightDate
+
 
 def usage():
     print """cc.py [-c|-f config_file|-d dir_name] [date]
@@ -14,8 +23,10 @@ d dir_name - в качестве списка календарей исполь�
 date по умолчанию сегодняшняя"""
     sys.exit(2)
 
+
 d = datetime.date.today()
-getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromDir, 'xml')
+getCalendarFilenames = functools.partial(
+                CalendarLocator.getCalendarFilenamesFromDir, 'xml')
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "cf:d:")
@@ -26,11 +37,15 @@ if len(opts) == 1:
     o, a = opts[0]
 
     if o == "-c":
-        getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromConfig, 'cc.ini')
+        getCalendarFilenames = functools.partial(
+            CalendarLocator.getCalendarFilenamesFromConfig,
+            'cc.ini')
     elif o == "-f":
-        getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromConfig, a)
+        getCalendarFilenames = functools.partial(
+            CalendarLocator.getCalendarFilenamesFromConfig, a)
     elif o == "-d":
-        getCalendarFilenames = functools.partial(CalendarLocator.getCalendarFilenamesFromDir, a)
+        getCalendarFilenames = functools.partial(
+            CalendarLocator.getCalendarFilenamesFromDir, a)
     else:
         print "%s - ошибочная опция\n" % o
 elif len(opts) > 1:
@@ -44,15 +59,18 @@ if len(args) == 1:
     except ValueError:
         print "Неверная дата\n"
         usage()
-    
+
 CV = ConsoleVisualizer.ConsoleVisualizer()
 
-print "%s, %s" % (Easter.getWeekdayStr(d), Easter.dateToReadableStr(d))
-print "(%s ст. ст.)" % Easter.dateToReadableStr(Easter.newToOldStyle(d))
+print "%s, %s" % (Easter.getWeekdayStr(d),
+                        Easter.dateToReadableStr(d))
+print "(%s ст. ст.)" % Easter.dateToReadableStr(
+                        Easter.newToOldStyle(d))
 
 for filename in getCalendarFilenames():
     try:
-        CalendarReader.parseCalendar(filename, RightDate.RightDate(d),  CV)
+        CalendarReader.parseCalendar(filename,
+                                      RightDate.RightDate(d),  CV)
     except CalendarReader.CalendarFileError:
         pass
 print CV.__str__()

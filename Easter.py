@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import datetime
 
 DAYS_IN_A_WEEK = 7
@@ -15,15 +16,16 @@ def getEasterDate(year):
         d = oldToNewStyle(datetime.date(year,  4,  a + b - 9))
     else:
         d = oldToNewStyle(datetime.date(year,  3,  22 + a + b))
-        
+
     LOW_EASTER_RANGE = datetime.date(year,  4,  4)
     HIGH_EASTER_RANGE = datetime.date(year,  5,  8)
-    
+
     if  d < LOW_EASTER_RANGE or d > HIGH_EASTER_RANGE:
         raise EasterOutOfRange
-        
+
     return d
-    
+
+
 def oldToNewStyle(date):
     """
     Перевод из старого стиля в новый
@@ -31,7 +33,8 @@ def oldToNewStyle(date):
     выход: дата в новом стиле
     """
     return date + datetime.timedelta(days = 13)
-    
+
+
 def newToOldStyle(date):
     """
     Перевод из нового стиля в старый
@@ -39,17 +42,21 @@ def newToOldStyle(date):
     выход: дата в старом стиле
     """
     return date - datetime.timedelta(days = 13)
-    
+
+
 def dateToReadableStr(date):
     """
     Вывод даты в удобочитаемом виде
     вход: дата
     выход: строка
     """
-    Monthes = ["января",  "февраля",  "марта",  "апреля",  "мая",  "июня",  
-               "июля",  "августа",  "сентября",  "октября",  "ноября",  "декабря"]
-    return "%d %s %d" % (date.day,  Monthes[date.month - 1],  date.year)
-    
+    Monthes = ["января", "февраля", "марта", "апреля",
+               "мая", "июня", "июля", "августа", "сентября",
+               "октября",  "ноября",  "декабря"]
+    return "%d %s %d" % (date.day,  Monthes[date.month - 1],
+                            date.year)
+
+
 def dateToStr(date):
     """
     Вывод даты в в формате дд.мм
@@ -57,7 +64,8 @@ def dateToStr(date):
     выход: строка
     """
     return date.strftime('%d.%m')
-    
+
+
 def strToDate(s, year):
     """
     Получение даты из "дд.мм" и года
@@ -67,6 +75,7 @@ def strToDate(s, year):
     """
     return datetime.date(year, int(s[3:]), int(s[:2]))
 
+
 def getEasterDistanceFromDate(date):
     """
     Определение количества дней до Пасхи
@@ -74,7 +83,8 @@ def getEasterDistanceFromDate(date):
     выход: строка вида E[-]n
     """
     return 'E%d' % (date - getEasterDate(date.year)).days
-    
+
+
 def getDateFromEasterDistance(dist, year):
     """
     Определение даты по количеству дней до Пасхи
@@ -82,8 +92,10 @@ def getDateFromEasterDistance(dist, year):
     вход: год
     выход: дата
     """
-    return getEasterDate(year) + datetime.timedelta(days = int(dist[1:]))
-    
+    return getEasterDate(year) + datetime.timedelta(days =
+                                                     int(dist[1:]))
+
+
 def getWeekdayFromDate(d, n, w, s):
     """
     Определение даты n-ого дня недели до или после даты
@@ -94,18 +106,19 @@ def getWeekdayFromDate(d, n, w, s):
     выход: дата
     """
     weekDayOfHoliday = d.isoweekday()
-    
+
     if s > 0:
         dist = getWeekdayAfterDist(weekDayOfHoliday, w)
     else:
         dist = getWeekdayBeforeDist(weekDayOfHoliday, w)
-        
+
     weeks = (n - 1) * DAYS_IN_A_WEEK
-    
+
     dist += weeks
-    
+
     return d + s * datetime.timedelta(days = dist)
-    
+
+
 def getNearestWeekday(d, w):
     """
     Определение даты ближайшего к дате дня недели
@@ -114,26 +127,29 @@ def getNearestWeekday(d, w):
     выход: дата
     """
     weekDayOfHoliday = d.isoweekday()
-    
+
     after = getWeekdayAfterDist(weekDayOfHoliday, w)
     before = getWeekdayBeforeDist(weekDayOfHoliday, w)
-    
+
     if after > before:
         dist = -before
     elif after == before:
         dist = 0
     else:
         dist = after
-    
+
     return d + datetime.timedelta(days = dist)
-    
+
+
 def getWeekdayStr(d):
     """
     Определение дня недели в удобочитаемом виде
     вход: строка
     """
-    return ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'][d.weekday()]
-    
+    return ['Понедельник', 'Вторник', 'Среда', 'Четверг',
+                'Пятница', 'Суббота', 'Воскресенье'][d.weekday()]
+
+
 def getWeekdayAfterDist(d, a):
     """
     Определение расстояния до следующего дня недели
@@ -144,7 +160,8 @@ def getWeekdayAfterDist(d, a):
         return a - d
     else:
         return DAYS_IN_A_WEEK - d + a
-        
+
+
 def getWeekdayBeforeDist(d, b):
     """
     Определение расстония до предідущего дня недели

@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import Easter
 import datetime
 import re
 
-DATE = re.compile('\d\d\.\d\d$') # E[-]n
-EASTER = re.compile('E-?\d+$') # E[-]n
-WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d[-+]\d\d\*w[1-7]') # шаблон для случаев вида "первая суббота по Богоявлении"
-WEEKDAY_NEAREST_DATE = re.compile('\d\d\.\d\d~w[1-7]') # шаблон для случаев вида "ближайшее воскресенье к ..."
+import Easter
+
+
+# E[-]n
+DATE = re.compile('\d\d\.\d\d$')
+# E[-]n
+EASTER = re.compile('E-?\d+$')
+# шаблон для случаев вида "первая суббота по Богоявлении"
+WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d[-+]\d\d\*w[1-7]')
+# шаблон для случаев вида "ближайшее воскресенье к ..."
+WEEKDAY_NEAREST_DATE = re.compile('\d\d\.\d\d~w[1-7]')
+
 
 def isStringFitInFormat(s,  format):
     """
@@ -17,9 +24,11 @@ def isStringFitInFormat(s,  format):
     """
     return format.match(s) is not None
 
+
 class RightDate:
     """
-    Класс для опеределения соответствия текущей даты дате из XML-файла
+    Класс для опеределения соответствия текущей даты
+    дате из XML-файла
     """
     def __init__(self, date):
         """
@@ -29,27 +38,29 @@ class RightDate:
         self.date = date
         self.strDate = Easter.dateToStr(date)
         self.distEaster = Easter.getEasterDistanceFromDate(date)
-    
+
     def isRightDate(self,  xmlDate):
         """
-        Проверка, соответствует ли выбранная дата той, которая найдена в XML-файле
+        Проверка, соответствует ли выбранная дата той,
+        которая найдена в XML-файле
         вход: дата из XML-файла
         выход: True/False
        """
         if ':' in xmlDate: # интервал
             dates = xmlDate.split(':')
             l = []
-            
+
             for date in dates:
                 if isStringFitInFormat(date, DATE):
                     l.append(Easter.strToDate(date, self.date.year))
                 elif isStringFitInFormat(date, EASTER):
-                    l.append(Easter.getDateFromEasterDistance(date, self.date.year))
+                    l.append(Easter.getDateFromEasterDistance(date,
+                                                        self.date.year))
                 else:
                     return False
 
             return l[0] <= self.date <= l[1]
-            
+
         elif isStringFitInFormat(xmlDate, DATE):
             return xmlDate == self.strDate
         elif isStringFitInFormat(xmlDate, EASTER):
@@ -63,13 +74,15 @@ class RightDate:
                 s = 1
             else:
                 s = -1
-            passDate = Easter.dateToStr(Easter.getWeekdayFromDate(date, int(n), int(w), s))
+            passDate = Easter.dateToStr(Easter.getWeekdayFromDate(
+                                            date, int(n), int(w), s))
             return self.strDate == passDate
         elif isStringFitInFormat(xmlDate, WEEKDAY_NEAREST_DATE):
             d, m = xmlDate[0 : 5].split('.')
             w = xmlDate[-1]
             date = datetime.date(self.date.year, int(m), int(d))
-            passDate = Easter.dateToStr(Easter.getNearestWeekday(date, int(w)))
+            passDate = Easter.dateToStr(Easter.getNearestWeekday(
+                                                        date, int(w)))
             return self.strDate == passDate
         else:
             return False
