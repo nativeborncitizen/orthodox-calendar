@@ -11,9 +11,9 @@ DATE = re.compile('\d\d\.\d\d$')
 # E[-]n
 EASTER = re.compile('E-?\d+$')
 # шаблон для случаев вида "первая суббота по Богоявлении"
-WEEKDAY_AFTER_DATE = re.compile('\d\d\.\d\d[-+]\d\d\*w[1-7]')
+WEEKDAY_AFTER_DATE = re.compile('(\d\d)\.(\d\d)([-+])(\d\d)\*w([1-7])')
 # шаблон для случаев вида "ближайшее воскресенье к ..."
-WEEKDAY_NEAREST_DATE = re.compile('\d\d\.\d\d~w[1-7]')
+WEEKDAY_NEAREST_DATE = re.compile('(\d\d)\.(\d\d)~w([1-7])')
 
 
 def isStringFitInFormat(s,  format):
@@ -47,6 +47,7 @@ class RightDate:
         выход: True/False
        """
         if ':' in xmlDate: # интервал
+
             dates = xmlDate.split(':')
             l = []
 
@@ -63,26 +64,38 @@ class RightDate:
 
         elif isStringFitInFormat(xmlDate, DATE):
             return xmlDate == self.strDate
+
         elif isStringFitInFormat(xmlDate, EASTER):
             return xmlDate == self.distEaster
+
         elif isStringFitInFormat(xmlDate, WEEKDAY_AFTER_DATE):
-            d, m = xmlDate[0 : 5].split('.')
-            n = xmlDate[6 : 8]
-            w = xmlDate[-1]
-            date = datetime.date(self.date.year, int(m), int(d))
-            if xmlDate[5] == '+':
-                s = 1
-            else:
-                s = -1
-            passDate = Easter.dateToStr(Easter.getWeekdayFromDate(
-                                            date, int(n), int(w), s))
+
+            day, month, sign, weeks_count, weekday = \
+                    WEEKDAY_AFTER_DATE.match(xmlDate).groups()
+
+            date = datetime.date(self.date.year,
+                                    int(month), int(day))
+
+            sign_value = 1 if sign == '+' else -1
+
+            passDate = Easter.dateToStr(
+                    Easter.getWeekdayFromDate(date,
+                        int(weeks_count), int(weekday), sign_value))
+
             return self.strDate == passDate
+
         elif isStringFitInFormat(xmlDate, WEEKDAY_NEAREST_DATE):
-            d, m = xmlDate[0 : 5].split('.')
-            w = xmlDate[-1]
-            date = datetime.date(self.date.year, int(m), int(d))
-            passDate = Easter.dateToStr(Easter.getNearestWeekday(
-                                                        date, int(w)))
+
+            day, month, weekday = \
+                    WEEKDAY_NEAREST_DATE.match(xmlDate).groups()
+
+            date = datetime.date(self.date.year,
+                                    int(month), int(day))
+
+            passDate = Easter.dateToStr(
+                    Easter.getNearestWeekday(date, int(weekday)))
+
             return self.strDate == passDate
+
         else:
             return False
