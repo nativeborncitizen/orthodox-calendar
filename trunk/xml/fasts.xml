@@ -1,1 +1,12 @@
-
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Календарь постов.
+        Описание формата см. в calendar.xml.
+        Отделен для удобства редактирования.   -->
+<calendar>
+    <day date = 'w3'> <!-- Среда -->
+        <text score = '30'>День постный.</text>
+    </day>
+    <day date = 'w5'> <!-- Пятница -->
+        <text score = '30'>День постный.</text>
+    </day>
+</calendar>

@@ -11,10 +11,12 @@ DATE = re.compile('\d\d\.\d\d$')
 # E[-]n
 EASTER = re.compile('E-?\d+$')
 # шаблон для случаев вида "первая суббота по Богоявлении"
-WEEKDAY_AFTER_DATE = re.compile('(\d\d)\.(\d\d)([-+])(\d\d)\*w([1-7])')
+WEEKDAY_AFTER_DATE = \
+    re.compile('(\d\d)\.(\d\d)([-+])(\d\d)\*w([1-7])')
 # шаблон для случаев вида "ближайшее воскресенье к ..."
 WEEKDAY_NEAREST_DATE = re.compile('(\d\d)\.(\d\d)~w([1-7])')
-
+# шаблон для дня недели (пост в среду и пятницу)
+WEEKDAY = re.compile('w[1-7]')
 
 def isStringFitInFormat(s,  format):
     """
@@ -96,6 +98,10 @@ class RightDate:
                     Easter.getNearestWeekday(date, int(weekday)))
 
             return self.strDate == passDate
+
+        elif isStringFitInFormat(xmlDate, WEEKDAY):
+            return self.date.isoweekday() == int(xmlDate[1])
+
 
         else:
             return False
