@@ -44,6 +44,17 @@ class RightDate:
     def isRightDate(self,  xmlDate):
         """
         Проверка, соответствует ли выбранная дата той,
+        которая найдена в XML-файле с учетом символа '&'
+        вход: дата из XML-файла
+        выход: True/False
+       """
+        dateGroups = xmlDate.split('&')
+        return all(map(self.parseDate, dateGroups)), \
+                    len(dateGroups)
+
+    def parseDate(self, xmlDate):
+        """
+        Проверка, соответствует ли выбранная дата той,
         которая найдена в XML-файле
         вход: дата из XML-файла
         выход: True/False

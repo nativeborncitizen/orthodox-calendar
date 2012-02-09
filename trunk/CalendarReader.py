@@ -18,14 +18,16 @@ class CalendarParser(ContentHandler):
         self.dateTester = dateTester
         self.isText = False
         self.isRightDate = False
+        self.priority = 0
         self.text = ''
         self.visualizer = visualizer
         self.score = MAX_SCORE
 
     def startElement(self, name, attrs):
         if name == 'day':
-            if self.dateTester.isRightDate(attrs.get('date')):
-                self.isRightDate = True
+            self.isRightDate, self.priority = \
+                    self.dateTester.isRightDate(attrs.get('date'))
+
         elif name == 'text' and self.isRightDate:
             self.score = int(attrs.get('score',  MAX_SCORE))
             self.isText = True
