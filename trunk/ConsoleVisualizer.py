@@ -1,26 +1,41 @@
 # -*- coding: utf-8 -*-
 
+import Fasts
+
+FAST_SCORE = 35
 
 class ConsoleVisualizer:
     """
     Класс для отображения информации в консоли
     """
     def __init__(self):
-        self._s = []
+        self._text = []
+        self._fast = ('', 0)
 
-    def add(self, text,  score):
+    def addText(self, text,  score):
         """
         Добавление новой строки
         вход: строка
         вход: вес для сортировки
+       """
+        self._text.append((text,  score))
+
+    def addFast(self, fast, priority):
         """
-        self._s.append((text,  score))
+        Добавление информации о посте
+        вход: код поста
+        вход: приоритет поста (сохраняется пост с наибольшим
+                приоритетом
+       """
+        if priority > self._fast[1]:
+           self._fast = (fast, priority)
 
     def clear(self):
         """
         Очистить содержимое буфера
         """
-        self._s = []
+        self._text = []
+        self._fast = ('', 0)
 
     def __str__(self):
         """
@@ -28,5 +43,9 @@ class ConsoleVisualizer:
         отсортированной по возрастанию веса
         """
         from operator import itemgetter
+        tmp = self._text
+        if self._fast[0] != '':
+            tmp.append(
+                    (Fasts.getFastName(self._fast[0]), FAST_SCORE))
         return '\n'.join(map(itemgetter(0),
-                             sorted(self._s, key = lambda t: t[1])))
+                        sorted(tmp, key = lambda t: t[1])))

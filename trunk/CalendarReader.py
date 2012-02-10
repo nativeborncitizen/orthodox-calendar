@@ -25,12 +25,16 @@ class CalendarParser(ContentHandler):
 
     def startElement(self, name, attrs):
         if name == 'day':
-            self.isRightDate, self.priority = \
+            self.isRightDate = \
                     self.dateTester.isRightDate(attrs.get('date'))
 
         elif name == 'text' and self.isRightDate:
             self.score = int(attrs.get('score',  MAX_SCORE))
             self.isText = True
+
+        elif name == 'fast' and self.isRightDate:
+            self.visualizer.addFast(attrs.get('type', ''),
+                                    attrs.get('priority', '0'))
 
     def characters(self, ch):
         if self.isText:
@@ -39,7 +43,7 @@ class CalendarParser(ContentHandler):
     def endElement(self, name):
         if name == 'text':
             if self.isRightDate:
-                self.visualizer.add(self.text,  self.score)
+                self.visualizer.addText(self.text,  self.score)
                 self.text = ''
             self.isText = False
 

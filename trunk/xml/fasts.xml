@@ -4,9 +4,63 @@
         Отделен для удобства редактирования.   -->
 <calendar>
     <day date = 'w3'> <!-- Среда -->
-        <text score = '30'>День постный.</text>
+        <fast type='st'/>
     </day>
     <day date = 'w5'> <!-- Пятница -->
-        <text score = '30'>День постный.</text>
+        <fast type='st'/>
     </day>
+    <day date='08.01:17.01@w3'>
+		<fast type='np' priority='1'/>
+	</day>
+    <day date='08.01:17.01@w5'>
+		<fast type='np' priority='1'/>
+	</day>
+    <day date='E-48:E-1'>
+        <text>Великий Пост.</text>
+		<fast type='st' priority='1'/>
+	</day>
+    <day date='E-48:E-1@w6'>
+		<fast type='ol' priority='2'/>
+	</day>
+    <day date='E-48:E-1@w7'>
+		<fast type='ol' priority='2'/>
+	</day>
+    <day date='E-48:E-1@07.04'>
+		<fast type='fi' priority='4'/>
+	</day>
+    <day date='E-48:E-1@E-8'>
+		<fast type='ik' priority='3'/>
+	</day>
+    <day date='E-48:E-1@E-7'>
+		<fast type='fi' priority='3'/>
+	</day>
+    <day date='14.08:27.08'>
+        <text>Успенский Пост.</text>
+		<fast type='st' priority='1'/>
+	</day>
+    <day date='19.08'>
+		<fast type='fi' priority='2'/>
+	</day>
+    <day date='28.08@w3'>
+		<fast type='fi' priority='1'/>
+	</day>
+    <day date='28.08@w5'>
+		<fast type='fi' priority='1'/>
+	</day>
+    <day date='28.11:19.12'>
+        <text>Рождественский Пост.</text>
+		<fast type='fi' priority='1'/>
+	</day>
+    <day date='28.11:19.12@w1'>
+		<fast type='st' priority='2'/>
+	</day>
+    <day date='28.11:19.12@w3'>
+		<fast type='st' priority='2'/>
+	</day>
+    <day date='28.11:19.12@w5'>
+		<fast type='st' priority='2'/>
+	</day>
+<!--    <day date='20.12:06.01@w1'>
+		<fast type='st' priority='2'/>
+	</day>-->
 </calendar>

@@ -9,6 +9,7 @@ import CalendarReader
 import ConsoleVisualizer
 import RightDate
 import CalendarLocator
+import Fasts
 
 class suite(unittest.TestCase):
 
@@ -29,17 +30,27 @@ class suite(unittest.TestCase):
     <day date = 'E-5:E-4'>
         <text>ВВВ</text>
     </day>
+    <day date = '03.05'>
+        <text>ААА</text>
+        <fast type='mm'/>
+    </day>
+    <day date = 'E-7:E-1@03.05'>
+        <text>ВВВ</text>
+        <fast type='st' priority = '1'/>
+    </day>
 </days>"""
         self.config = "[Calendar]\ncalendars = c1.xml,c2.xml"
         self.CV = ConsoleVisualizer.ConsoleVisualizer()
 
     def testOldToNewStyle(self):
-        self.assertEqual(Easter.oldToNewStyle(datetime.date(2011,
-                            12, 24)),  datetime.date(2012,  1,  6))
+        self.assertEqual(Easter.oldToNewStyle(
+                datetime.date(2011, 12, 24)),
+                datetime.date(2012,  1,  6))
 
     def testNewToOldStyle(self):
-        self.assertEqual(Easter.newToOldStyle(datetime.date(2012,
-                            1,  6)),  datetime.date(2011,  12,  24))
+        self.assertEqual(Easter.newToOldStyle(
+                datetime.date(2012, 1,  6)),
+                datetime.date(2011,  12,  24))
 
     def testEasterDate(self):
         self.assertEqual(Easter.getEasterDate(2001),
@@ -140,6 +151,12 @@ class suite(unittest.TestCase):
                     lambda : CalendarReader.parseCalendar(
                     'calendar1.xml', RightDate.RightDate(
                     datetime.date(2012,  4,  14)), self.CV))
+        self.CV.clear()
+        CalendarReader.parseCalendar(StringIO.StringIO(self.xml),
+                    RightDate.RightDate(datetime.date(2002, 5, 3)),
+                    self.CV, open = lambda s, t: s)
+        self.assertEqual(self.CV.__str__(),
+                    "Строгий пост\nААА\nВВВ".decode('utf-8'))
 
     def testLoadCalendars(self):
         self.assertEqual(
@@ -150,36 +167,40 @@ class suite(unittest.TestCase):
     def testConsoleVisualizer(self):
         self.CV.clear()
         self.assertEqual(self.CV.__str__(), "")
-        self.CV.add("ААА",  1)
-        self.CV.add("БББ",  0)
+        self.CV.addText("ААА",  1)
+        self.CV.addText("БББ",  0)
         self.assertEqual(self.CV.__str__(), "БББ\nААА")
+        self.CV.clear()
+        self.CV.addText("ААА".decode('utf-8'),  1)
+        self.CV.addFast("mm",  1)
+        self.CV.addFast("np",  3)
+        self.assertEqual(self.CV.__str__(), "ААА\nНет поста".decode('utf-8'))
 
     def testRightDate(self):
         d = RightDate.RightDate(datetime.date(2012, 1, 1))
-        self.assertEqual(d.isRightDate('01.01'), (True, 1))
+        self.assertTrue(d.isRightDate('01.01'))
         d = RightDate.RightDate(datetime.date(2012, 4, 15))
-        self.assertEqual(d.isRightDate('E0'), (True, 1))
+        self.assertTrue(d.isRightDate('E0'))
         d = RightDate.RightDate(datetime.date(2012, 1, 21))
-        self.assertEqual(d.isRightDate('19.01+01*w6'), (True, 1))
+        self.assertTrue(d.isRightDate('19.01+01*w6'))
         d = RightDate.RightDate(datetime.date(2012, 1, 11))
-        self.assertEqual(d.isRightDate('19.01-02*w3'), (True, 1))
+        self.assertTrue(d.isRightDate('19.01-02*w3'))
         d = RightDate.RightDate(datetime.date(2012, 1, 11))
-        self.assertEqual(d.isRightDate('10.01:20.01'), (True, 1))
+        self.assertTrue(d.isRightDate('10.01:20.01'))
         d = RightDate.RightDate(datetime.date(2012, 4, 14))
-        self.assertEqual(d.isRightDate('13.04:E0'), (True, 1))
+        self.assertTrue(d.isRightDate('13.04:E0'))
         d = RightDate.RightDate(datetime.date(2012, 4, 13))
-        self.assertEqual(d.isRightDate('13.04:E0'), (True, 1))
+        self.assertTrue(d.isRightDate('13.04:E0'))
         d = RightDate.RightDate(datetime.date(2012, 4, 12))
-        self.assertEqual(d.isRightDate('13.04:E0'), (False, 1))
+        self.assertFalse(d.isRightDate('13.04:E0'))
         d = RightDate.RightDate(datetime.date(2012, 4, 12))
-        self.assertEqual(d.isRightDate('13.04:aq'), (False, 1))
+        self.assertFalse(d.isRightDate('13.04:ass'))
         d = RightDate.RightDate(datetime.date(2012, 1, 21))
-        self.assertEqual(d.isRightDate('19.01~w6'), (True, 1))
+        self.assertTrue(d.isRightDate('19.01~w6'))
         d = RightDate.RightDate(datetime.date(2012, 2, 8))
-        self.assertEqual(d.isRightDate('w3'), (True, 1))
+        self.assertTrue(d.isRightDate('w3'))
         d = RightDate.RightDate(datetime.date(2012, 2, 8))
-        self.assertEqual(d.isRightDate('w3&01.02:10.02&08.02'),
-                            (True, 3))
+        self.assertTrue(d.isRightDate('w3@01.02:10.02@08.02'))
 
     def testIsStringFitInFormat(self):
         self.assertTrue(RightDate.isStringFitInFormat(
@@ -274,6 +295,10 @@ class suite(unittest.TestCase):
         self.assertEqual(Easter.getNearestWeekday(
                     datetime.date(2013, 1, 19), 6),
                     datetime.date(2013, 1, 19))
+
+    def testGetFastName(self):
+        self.assertEqual(Fasts.getFastName('st'),
+                'Строгий пост'.decode('utf-8'))
 
 if __name__ == "__main__":
     unittest.main()
