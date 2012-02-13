@@ -2,7 +2,11 @@
 
 import datetime
 
+
 DAYS_IN_A_WEEK = 7
+DAYS_IN_A_YEAR = 365
+DAYS_IN_A_LEAP_YEAR = 364
+
 
 def getEasterDate(year):
     """

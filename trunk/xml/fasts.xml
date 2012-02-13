@@ -9,32 +9,32 @@
     <day date = 'w5'> <!-- Пятница -->
         <fast type='st'/>
     </day>
-    <day date='08.01:17.01@w3'>
+    <day date='08.01:18.01@w3'>
 		<fast type='np' priority='1'/>
 	</day>
-    <day date='08.01:17.01@w5'>
+    <day date='08.01:18.01@w5'>
 		<fast type='np' priority='1'/>
 	</day>
-    <day date='E-48:E-1'>
+    <day date='E-48:E0'>
         <text>Великий Пост.</text>
 		<fast type='st' priority='1'/>
 	</day>
-    <day date='E-48:E-1@w6'>
+    <day date='E-48:E0@w6'>
 		<fast type='ol' priority='2'/>
 	</day>
-    <day date='E-48:E-1@w7'>
+    <day date='E-48:E0@w7'>
 		<fast type='ol' priority='2'/>
 	</day>
-    <day date='E-48:E-1@07.04'>
+    <day date='E-48:E0@07.04'>
 		<fast type='fi' priority='4'/>
 	</day>
-    <day date='E-48:E-1@E-8'>
+    <day date='E-48:E0@E-8'>
 		<fast type='ik' priority='3'/>
 	</day>
-    <day date='E-48:E-1@E-7'>
+    <day date='E-48:E0@E-7'>
 		<fast type='fi' priority='3'/>
 	</day>
-    <day date='14.08:27.08'>
+    <day date='14.08:28.08'>
         <text>Успенский Пост.</text>
 		<fast type='st' priority='1'/>
 	</day>
