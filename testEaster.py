@@ -27,7 +27,7 @@ class suite(unittest.TestCase):
     <day date = 'E-1'>
         <text>БББ</text>
     </day>
-    <day date = 'E-5:E-4'>
+    <day date = 'E-5:E-3'>
         <text>ВВВ</text>
     </day>
     <day date = '03.05'>
@@ -193,8 +193,12 @@ class suite(unittest.TestCase):
         self.assertTrue(d.isRightDate('13.04:E0'))
         d = RightDate.RightDate(datetime.date(2012, 4, 12))
         self.assertFalse(d.isRightDate('13.04:E0'))
+        d = RightDate.RightDate(datetime.date(2012, 12, 25))
+        self.assertTrue(d.isRightDate('19.12:20.01'))
+        d = RightDate.RightDate(datetime.date(2012, 1, 2))
+        self.assertTrue(d.isRightDate('19.12:20.01'))
         d = RightDate.RightDate(datetime.date(2012, 4, 12))
-        self.assertFalse(d.isRightDate('13.04:ass'))
+        self.assertFalse(d.isRightDate('13.04:sss'))
         d = RightDate.RightDate(datetime.date(2012, 1, 21))
         self.assertTrue(d.isRightDate('19.01~w6'))
         d = RightDate.RightDate(datetime.date(2012, 2, 8))

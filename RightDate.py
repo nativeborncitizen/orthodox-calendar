@@ -18,7 +18,8 @@ WEEKDAY_NEAREST_DATE = re.compile('(\d\d)\.(\d\d)~w([1-7])')
 # шаблон для дня недели (пост в среду и пятницу)
 WEEKDAY = re.compile('w[1-7]')
 
-def isStringFitInFormat(s,  format):
+
+def isStringFitInFormat(s, format):
     """
     Проверка текста на соответствие формату
     вход: строка, формат
@@ -59,20 +60,7 @@ class RightDate:
         выход: True/False
        """
         if ':' in xmlDate: # интервал
-
-            dates = xmlDate.split(':')
-            l = []
-
-            for date in dates:
-                if isStringFitInFormat(date, DATE):
-                    l.append(Easter.strToDate(date, self.date.year))
-                elif isStringFitInFormat(date, EASTER):
-                    l.append(Easter.getDateFromEasterDistance(date,
-                                                        self.date.year))
-                else:
-                    return False
-
-            return l[0] <= self.date <= l[1]
+            return self._parseRange(xmlDate)
 
         elif isStringFitInFormat(xmlDate, DATE):
             return xmlDate == self.strDate
@@ -81,37 +69,96 @@ class RightDate:
             return xmlDate == self.distEaster
 
         elif isStringFitInFormat(xmlDate, WEEKDAY_AFTER_DATE):
-
-            day, month, sign, weeks_count, weekday = \
-                    WEEKDAY_AFTER_DATE.match(xmlDate).groups()
-
-            date = datetime.date(self.date.year,
-                                    int(month), int(day))
-
-            sign_value = 1 if sign == '+' else -1
-
-            passDate = Easter.dateToStr(
-                    Easter.getWeekdayFromDate(date,
-                        int(weeks_count), int(weekday), sign_value))
-
-            return self.strDate == passDate
+            return self._parseWeekdayAfterDate(xmlDate)
 
         elif isStringFitInFormat(xmlDate, WEEKDAY_NEAREST_DATE):
-
-            day, month, weekday = \
-                    WEEKDAY_NEAREST_DATE.match(xmlDate).groups()
-
-            date = datetime.date(self.date.year,
-                                    int(month), int(day))
-
-            passDate = Easter.dateToStr(
-                    Easter.getNearestWeekday(date, int(weekday)))
-
-            return self.strDate == passDate
+            return self._parseWeekdayNearestDate(xmlDate)
 
         elif isStringFitInFormat(xmlDate, WEEKDAY):
             return self.date.isoweekday() == int(xmlDate[1])
 
-
         else:
             return False
+
+
+    def _parseDateForRange(self, strDate):
+        """
+        Определение даты для диапазонов дат
+        вход: дата в виде дд.мм или En
+        выход: дата для года расчетной даты
+       """
+        if isStringFitInFormat(strDate, DATE):
+            return Easter.strToDate(strDate, self.date.year)
+        elif isStringFitInFormat(strDate, EASTER):
+            return Easter.getDateFromEasterDistance(strDate,
+                                                self.date.year)
+        else:
+            return None
+
+    def _parseRange(self, xmlDate):
+        """
+        Определение принадлежности даты диапазону
+        вход: шаблон диапазона дат дд.мм|En:дд.мм|En
+        выход: True/False
+       """
+        dates = xmlDate.split(':')
+
+        if len(dates) != 2:
+            return False
+
+        dateBefore = self._parseDateForRange(dates[0])
+        dateAfter = self._parseDateForRange(dates[1])
+
+        if dateBefore is None or dateAfter is None:
+            return False
+
+        if dateBefore > dateAfter:
+            dateBeforeYear = datetime.date(
+                    dateBefore.year - 1, dateBefore.month,
+                    dateBefore.day)
+            dateAfterYear = datetime.date(
+                    dateAfter.year + 1, dateAfter.month,
+                    dateAfter.day)
+            return dateBeforeYear <= self.date < dateAfter or\
+                    dateBefore <= self.date < dateAfterYear
+        else:
+            return dateBefore <= self.date < dateAfter
+
+    def _parseWeekdayAfterDate(self, xmlDate):
+        """
+        Определение даты для шаблона типа "дд.мм±н*wд" и года
+        расчетной даты
+        вход: строка шаблона
+        выход: True/False
+       """
+        day, month, sign, weeks_count, weekday = \
+                WEEKDAY_AFTER_DATE.match(xmlDate).groups()
+
+        date = datetime.date(self.date.year,
+                                int(month), int(day))
+
+        sign_value = 1 if sign == '+' else -1
+
+        passDate = Easter.dateToStr(
+                Easter.getWeekdayFromDate(date,
+                    int(weeks_count), int(weekday), sign_value))
+
+        return self.strDate == passDate
+
+    def _parseWeekdayNearestDate(self, xmlDate):
+        """
+        Определение даты для шаблона типа "дд.мм±н*wд" и года
+        расчетной даты
+        вход: строка шаблона
+        выход: True/False
+       """
+        day, month, weekday = \
+                WEEKDAY_NEAREST_DATE.match(xmlDate).groups()
+
+        date = datetime.date(self.date.year,
+                                int(month), int(day))
+
+        passDate = Easter.dateToStr(
+                Easter.getNearestWeekday(date, int(weekday)))
+
+        return self.strDate == passDate
