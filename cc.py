@@ -14,7 +14,7 @@ import RightDate
 
 
 def usage():
-    print """cc.py [-c|-f config_file|-d dir_name] [date]
+    print """cc.py [-c|-f config_file|-d dir_name] [date|-t]
 
 c - список календарей получить из файла cc.ini;
 f config_file - список календарей получить из файла с именем config_file;

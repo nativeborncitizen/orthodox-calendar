@@ -176,3 +176,15 @@ def getWeekdayBeforeDist(d, b):
         return d - b
     else:
         return d + DAYS_IN_A_WEEK - b
+
+def shiftDateOnYear(date, years):
+    """
+    Определение даты сдвинутой на указанное количество лет.
+    Если 29.02 сдвигается не на високосный год, выбрасывается
+    ValueError
+    вход: дата
+    вход: количество лет для сдвига (может быть < 0)
+    выход: сдвинутая дата
+    """
+    return datetime.date(date.year + years, date.month,
+            date.day)

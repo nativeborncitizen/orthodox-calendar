@@ -304,5 +304,16 @@ class suite(unittest.TestCase):
         self.assertEqual(Fasts.getFastName('st'),
                 'Строгий пост'.decode('utf-8'))
 
+    def testShiftDateOnYear(self):
+        self.assertEqual(Easter.shiftDateOnYear(
+                datetime.date(2012, 1, 20), 1),
+                datetime.date(2013, 1, 20))
+        self.assertEqual(Easter.shiftDateOnYear(
+                datetime.date(2012, 1, 20), -1),
+                datetime.date(2011, 1, 20))
+        self.assertRaises(ValueError, lambda:
+            Easter.shiftDateOnYear(
+                        datetime.date(2012, 2, 29), 1))
+
 if __name__ == "__main__":
     unittest.main()

@@ -60,7 +60,7 @@ class RightDate:
         выход: True/False
        """
         if ':' in xmlDate: # интервал
-            return self._parseRange(xmlDate)
+            return self.__parseRange(xmlDate)
 
         elif isStringFitInFormat(xmlDate, DATE):
             return xmlDate == self.strDate
@@ -69,10 +69,10 @@ class RightDate:
             return xmlDate == self.distEaster
 
         elif isStringFitInFormat(xmlDate, WEEKDAY_AFTER_DATE):
-            return self._parseWeekdayAfterDate(xmlDate)
+            return self.__parseWeekdayAfterDate(xmlDate)
 
         elif isStringFitInFormat(xmlDate, WEEKDAY_NEAREST_DATE):
-            return self._parseWeekdayNearestDate(xmlDate)
+            return self.__parseWeekdayNearestDate(xmlDate)
 
         elif isStringFitInFormat(xmlDate, WEEKDAY):
             return self.date.isoweekday() == int(xmlDate[1])
@@ -81,7 +81,7 @@ class RightDate:
             return False
 
 
-    def _parseDateForRange(self, strDate):
+    def __parseDateForRange(self, strDate):
         """
         Определение даты для диапазонов дат
         вход: дата в виде дд.мм или En
@@ -95,7 +95,7 @@ class RightDate:
         else:
             return None
 
-    def _parseRange(self, xmlDate):
+    def __parseRange(self, xmlDate):
         """
         Определение принадлежности даты диапазону
         вход: шаблон диапазона дат дд.мм|En:дд.мм|En
@@ -106,25 +106,24 @@ class RightDate:
         if len(dates) != 2:
             return False
 
-        dateBefore = self._parseDateForRange(dates[0])
-        dateAfter = self._parseDateForRange(dates[1])
+        dateBefore = self.__parseDateForRange(dates[0])
+        dateAfter = self.__parseDateForRange(dates[1])
 
         if dateBefore is None or dateAfter is None:
             return False
 
         if dateBefore > dateAfter:
-            dateBeforeYear = datetime.date(
-                    dateBefore.year - 1, dateBefore.month,
-                    dateBefore.day)
-            dateAfterYear = datetime.date(
-                    dateAfter.year + 1, dateAfter.month,
-                    dateAfter.day)
-            return dateBeforeYear <= self.date < dateAfter or\
-                    dateBefore <= self.date < dateAfterYear
+            try:
+                return Easter.shiftDateOnYear(dateBefore, -1) \
+                            <= self.date < dateAfter or\
+                        dateBefore <= self.date < \
+                            Easter.shiftDateOnYear(dateAfter, 1)
+            except ValueError:
+                return False
         else:
             return dateBefore <= self.date < dateAfter
 
-    def _parseWeekdayAfterDate(self, xmlDate):
+    def __parseWeekdayAfterDate(self, xmlDate):
         """
         Определение даты для шаблона типа "дд.мм±н*wд" и года
         расчетной даты
@@ -145,7 +144,7 @@ class RightDate:
 
         return self.strDate == passDate
 
-    def _parseWeekdayNearestDate(self, xmlDate):
+    def __parseWeekdayNearestDate(self, xmlDate):
         """
         Определение даты для шаблона типа "дд.мм±н*wд" и года
         расчетной даты

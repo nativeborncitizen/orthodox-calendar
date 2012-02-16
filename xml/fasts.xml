@@ -9,11 +9,20 @@
     <day date = 'w5'> <!-- Пятница -->
         <fast type='st'/>
     </day>
-    <day date='08.01:18.01@w3'>
+    <day date='08.01:18.01'>
 		<fast type='np' priority='1'/>
 	</day>
-    <day date='08.01:18.01@w5'>
+    <day date='E-69:E-62'>
 		<fast type='np' priority='1'/>
+	</day>
+    <day date='E-62:E-55@w3'>
+		<fast type='fi' priority='1'/>
+	</day>
+    <day date='E-62:E-55@w5'>
+		<fast type='fi' priority='1'/>
+	</day>
+    <day date='E-55:E-48'>
+		<fast type='mm' priority='1'/>
 	</day>
     <day date='E-48:E0'>
         <text>Великий Пост.</text>
@@ -34,6 +43,9 @@
     <day date='E-48:E0@E-7'>
 		<fast type='fi' priority='3'/>
 	</day>
+    <day date='E0:E8'>
+		<fast type='np' priority='3'/>
+	</day>
     <day date='14.08:28.08'>
         <text>Успенский Пост.</text>
 		<fast type='st' priority='1'/>
@@ -47,20 +59,52 @@
     <day date='28.08@w5'>
 		<fast type='fi' priority='1'/>
 	</day>
-    <day date='28.11:19.12'>
+    <day date='28.11:20.12'>
         <text>Рождественский Пост.</text>
 		<fast type='fi' priority='1'/>
 	</day>
-    <day date='28.11:19.12@w1'>
+    <day date='28.11:20.12@w1'>
 		<fast type='st' priority='2'/>
 	</day>
-    <day date='28.11:19.12@w3'>
+    <day date='28.11:20.12@w3'>
 		<fast type='st' priority='2'/>
 	</day>
-    <day date='28.11:19.12@w5'>
+    <day date='28.11:20.12@w5'>
 		<fast type='st' priority='2'/>
 	</day>
-<!--    <day date='20.12:06.01@w1'>
+    <day date='20.12:06.01'>
+        <text>Рождественский Пост.</text>
+		<fast type='st' priority='1'/>
+	</day>
+    <day date='20.12:02.01@w6'>
+		<fast type='fi' priority='2'/>
+	</day>
+    <day date='20.12:02.01@w7'>
+		<fast type='fi' priority='2'/>
+	</day>
+    <day date='18.01'>
 		<fast type='st' priority='2'/>
-	</day>-->
+	</day>
+    <day date='E50:E57'>
+		<fast type='np' priority='2'/>
+	</day>
+    <day date='E57:12.07'>
+        <text>Петров Пост.</text>
+		<fast type='fi' priority='1'/>
+	</day>
+    <day date='E57:12.07@w1'>
+		<fast type='st' priority='2'/>
+	</day>
+    <day date='E57:12.07@w3'>
+		<fast type='st' priority='2'/>
+	</day>
+    <day date='E57:12.07@w5'>
+		<fast type='st' priority='2'/>
+	</day>
+    <day date='11.09'>
+		<fast type='ol' priority='2'/>
+	</day>
+    <day date='27.09'>
+		<fast type='ol' priority='2'/>
+	</day>
 </calendar>
