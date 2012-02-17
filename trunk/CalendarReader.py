@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
+"""
+Модуль парсинга xml-файла с календарем
+на основе sax-парсера
+"""
 
 import xml.sax
 from xml.sax.handler import ContentHandler
 
-import RightDate
-
 
 class CalendarFileError(Exception):
+    """
+    Класс-исключение для неправильного формата календаря или
+    ошибки открытия файла
+    """
     pass
 
 
@@ -36,9 +42,9 @@ class CalendarParser(ContentHandler):
             self.visualizer.addFast(attrs.get('type', ''),
                                     attrs.get('priority', '0'))
 
-    def characters(self, ch):
+    def characters(self, char):
         if self.isText:
-            self.text += ch
+            self.text += char
 
     def endElement(self, name):
         if name == 'text':
