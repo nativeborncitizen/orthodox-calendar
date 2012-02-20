@@ -1,6 +1,7 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
+from encodings.utf_8_sig import encode
 import sys
 import datetime
 import getopt
@@ -75,7 +76,7 @@ def main(argv):
                                           RightDate.RightDate(d),  CV)
         except CalendarReader.CalendarFileError:
             pass
-    print CV.__str__()
+    print CV.__str__().encode('utf-8')
 
 
 if __name__ == '__main__':
