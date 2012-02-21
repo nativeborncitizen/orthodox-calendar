@@ -4,9 +4,9 @@
 """
 
 
-import tests.testEaster
-import tests.testCalendarLocator
-import tests.testConsoleVisualizer
-import tests.testRightDate
-import tests.testFasts
-import tests.testCalendarReader
+import tests.Easter_test
+import tests.CalendarLocator_test
+import tests.ConsoleVisualizer_test
+import tests.RightDate_test
+import tests.Fasts_test
+import tests.CalendarReader_test
