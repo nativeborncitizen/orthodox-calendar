@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+"""
+Определение соответствия даты шаблону
+"""
 
 import datetime
 import re
@@ -60,7 +63,7 @@ class RightDate:
         выход: True/False
        """
         if ':' in xmlDate: # интервал
-            return self.__parseRange(xmlDate)
+            return self._parseRange(xmlDate)
 
         elif isStringFitInFormat(xmlDate, DATE):
             return xmlDate == self.strDate
@@ -69,10 +72,10 @@ class RightDate:
             return xmlDate == self.distEaster
 
         elif isStringFitInFormat(xmlDate, WEEKDAY_AFTER_DATE):
-            return self.__parseWeekdayAfterDate(xmlDate)
+            return self._parseWeekdayAfterDate(xmlDate)
 
         elif isStringFitInFormat(xmlDate, WEEKDAY_NEAREST_DATE):
-            return self.__parseWeekdayNearestDate(xmlDate)
+            return self._parseWeekdayNearestDate(xmlDate)
 
         elif isStringFitInFormat(xmlDate, WEEKDAY):
             return self.date.isoweekday() == int(xmlDate[1])
@@ -81,7 +84,7 @@ class RightDate:
             return False
 
 
-    def __parseDateForRange(self, strDate):
+    def _parseDateForRange(self, strDate):
         """
         Определение даты для диапазонов дат
         вход: дата в виде дд.мм или En
@@ -95,7 +98,7 @@ class RightDate:
         else:
             return None
 
-    def __parseRange(self, xmlDate):
+    def _parseRange(self, xmlDate):
         """
         Определение принадлежности даты диапазону
         вход: шаблон диапазона дат дд.мм|En:дд.мм|En
@@ -106,8 +109,8 @@ class RightDate:
         if len(dates) != 2:
             return False
 
-        dateBefore = self.__parseDateForRange(dates[0])
-        dateAfter = self.__parseDateForRange(dates[1])
+        dateBefore = self._parseDateForRange(dates[0])
+        dateAfter = self._parseDateForRange(dates[1])
 
         if dateBefore is None or dateAfter is None:
             return False
@@ -123,7 +126,7 @@ class RightDate:
         else:
             return dateBefore <= self.date < dateAfter
 
-    def __parseWeekdayAfterDate(self, xmlDate):
+    def _parseWeekdayAfterDate(self, xmlDate):
         """
         Определение даты для шаблона типа "дд.мм±н*wд" и года
         расчетной даты
@@ -144,7 +147,7 @@ class RightDate:
 
         return self.strDate == passDate
 
-    def __parseWeekdayNearestDate(self, xmlDate):
+    def _parseWeekdayNearestDate(self, xmlDate):
         """
         Определение даты для шаблона типа "дд.мм±н*wд" и года
         расчетной даты
