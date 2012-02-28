@@ -6,12 +6,12 @@
 
 import unittest
 
-import Fasts
+import fasts_and_hollidays
 
 class TestFasts(unittest.TestCase):
 
     def testGetFastName(self):
-        self.assertEqual(Fasts.getFastName('st'),
+        self.assertEqual(fasts_and_hollidays.getFastName('st'),
                 'Строгий пост'.decode('utf-8'))
 
 suite = unittest.TestLoader().loadTestsFromTestCase(

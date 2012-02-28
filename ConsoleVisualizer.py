@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import Fasts
+import fasts_and_hollidays
 
 FAST_SCORE = 35
 
@@ -46,6 +46,6 @@ class ConsoleVisualizer:
         tmp = self._text
         if self._fast[0] != '':
             tmp.append(
-                    (Fasts.getFastName(self._fast[0]), FAST_SCORE))
+                    (fasts_and_hollidays.getFastName(self._fast[0]), FAST_SCORE))
         return '\n'.join(map(itemgetter(0),
                         sorted(tmp, key = lambda t: t[1])))
