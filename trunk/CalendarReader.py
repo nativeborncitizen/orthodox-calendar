@@ -19,7 +19,7 @@ class CalendarFileError(Exception):
 MAX_SCORE = 1000 # Вес праздника по умолчанию
 
 
-class CalendarParser(ContentHandler):
+class _CalendarParser(ContentHandler):
     def __init__(self,  dateTester, visualizer):
         self.dateTester = dateTester
         self.isText = False
@@ -64,7 +64,7 @@ def parseCalendar(filename, dateTester, visualizer, open = open):
     выход: строка найденных соответствий
     """
     parser = xml.sax.make_parser()
-    Handler = CalendarParser(dateTester, visualizer)
+    Handler = _CalendarParser(dateTester, visualizer)
     parser.setContentHandler(Handler)
 
     try:
