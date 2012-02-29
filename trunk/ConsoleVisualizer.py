@@ -2,7 +2,7 @@
 
 import fasts_and_hollidays
 
-FAST_SCORE = 35
+FAST_SCORE = 35 # вес строки с постом, чтобы она отображалась вверху
 
 class ConsoleVisualizer:
     """
@@ -46,6 +46,6 @@ class ConsoleVisualizer:
         tmp = self._text
         if self._fast[0] != '':
             tmp.append(
-                    (fasts_and_hollidays.getFastName(self._fast[0]), FAST_SCORE))
+                (fasts_and_hollidays.get_fast_name(self._fast[0]), FAST_SCORE))
         return '\n'.join(map(itemgetter(0),
-                        sorted(tmp, key = lambda t: t[1])))
+                sorted(tmp, key = lambda t: t[1])))
