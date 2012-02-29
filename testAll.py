@@ -10,4 +10,5 @@ import tests.ConsoleVisualizer_test
 import tests.RightDate_test
 import tests.fasts_and_hollidays_test
 import tests.CalendarReader_test
+import tests.day_description_test
 

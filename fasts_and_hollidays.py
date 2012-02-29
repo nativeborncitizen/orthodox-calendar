@@ -13,7 +13,7 @@ FASTS = { "st" : "Строгий пост".decode('utf-8'),
            "np" : "Нет поста".decode('utf-8')
          }
 
-def getFastName(code):
+def get_fast_name(code):
     """
     Определение типа поста
     вход: строка, код поста
@@ -41,3 +41,10 @@ TIPIKON_XML = {"FC" : TIPIKON_SIGNS.FULL_CROSS,
         "C" : TIPIKON_SIGNS.CROSS,
         "SL" : TIPIKON_SIGNS.SLAVOSLOVIE,
         "SH" : TIPIKON_SIGNS.SHESTERIK}
+
+def get_holliday_type(tipikon_xml_attr):
+    """Вернуть значение типа праздника на основании атрибута tipikon
+    в xml-файле
+    """
+    return TIPIKON_XML[tipikon_xml_attr] if tipikon_xml_attr in TIPIKON_XML \
+        else TIPIKON_SIGNS.WITHOUT
