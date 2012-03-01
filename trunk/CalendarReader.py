@@ -20,13 +20,13 @@ MAX_SCORE = 1000 # Вес праздника по умолчанию
 
 
 class _CalendarParser(ContentHandler):
-    def __init__(self,  dateTester, visualizer):
+    def __init__(self,  dateTester, day_description):
         self.dateTester = dateTester
         self.isText = False
         self.isRightDate = False
         self.priority = 0
         self.text = ''
-        self.visualizer = visualizer
+        self.day_description = day_description
         self.score = MAX_SCORE
 
     def startElement(self, name, attrs):
@@ -39,7 +39,7 @@ class _CalendarParser(ContentHandler):
             self.isText = True
 
         elif name == 'fast' and self.isRightDate:
-            self.visualizer.addFast(attrs.get('type', ''),
+            self.day_description.add_fast(attrs.get('type', ''),
                                     attrs.get('priority', '0'))
 
     def characters(self, char):
@@ -49,7 +49,7 @@ class _CalendarParser(ContentHandler):
     def endElement(self, name):
         if name == 'text':
             if self.isRightDate:
-                self.visualizer.addText(self.text,  self.score)
+                self.day_description.add_text(self.text,  self.score)
                 self.text = ''
             self.isText = False
 
@@ -57,14 +57,14 @@ class _CalendarParser(ContentHandler):
             self.isRightDate = False
 
 
-def parseCalendar(filename, dateTester, visualizer, open = open):
+def parseCalendar(filename, dateTester, day_description, open=open):
     """
     Ищет в календаре совпадения с датой из списка дат
     вход: имя xml-файла с календарем и список дат
     выход: строка найденных соответствий
     """
     parser = xml.sax.make_parser()
-    Handler = _CalendarParser(dateTester, visualizer)
+    Handler = _CalendarParser(dateTester, day_description)
     parser.setContentHandler(Handler)
 
     try:

@@ -6,7 +6,6 @@ import unittest
 import day_description
 
 
-
 class  DayDescriptionTestCase(unittest.TestCase):
     """
     Тестирование сбора атрибутов
@@ -22,7 +21,7 @@ class  DayDescriptionTestCase(unittest.TestCase):
         self.DD.add_fast("mm",  1)
         self.DD.add_fast("np",  3)
         self.assertEqual(
-            self.DD.get_fast(), "Нет поста".decode('utf-8'))
+            self.DD.get_fast(), u"Нет поста")
 
 suite = unittest.TestLoader().loadTestsFromTestCase(
                                                 DayDescriptionTestCase)
