@@ -5,10 +5,8 @@ import sys
 import datetime
 import getopt
 import functools
-
 import Easter
 import CalendarReader
-import ConsoleVisualizer
 import CalendarLocator
 import RightDate
 import console_visualizer
