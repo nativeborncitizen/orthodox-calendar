@@ -3,11 +3,10 @@
 Модуль-контейнер для хранения всех атрибутов дня
 """
 from operator import itemgetter
-
 import fasts_and_hollidays
 
 
-__author__="z"
+__author__="nativeborncitizen@blogspot.com"
 __date__ ="$1 бер 2012 0:40:17$"
 
 class DayDescription(object):
@@ -31,7 +30,7 @@ class DayDescription(object):
 
     def get_text(self):
         """
-        Вернуть все строки описаний праздников, отсортированые по score
+        Вернуть список строк описаний праздников, отсортированный по score
         """
         return map(itemgetter(0),
                 sorted(self._text, key = lambda t: t[1]))

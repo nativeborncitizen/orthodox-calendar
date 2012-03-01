@@ -1,7 +1,6 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-from encodings.utf_8_sig import encode
 import sys
 import datetime
 import getopt
@@ -12,6 +11,9 @@ import CalendarReader
 import ConsoleVisualizer
 import CalendarLocator
 import RightDate
+import console_visualizer
+import day_description
+
 
 
 def usage():
@@ -63,20 +65,21 @@ def main(argv):
             print "Неверная дата\n"
             usage()
 
-    CV = ConsoleVisualizer.ConsoleVisualizer()
-
     print "%s, %s" % (Easter.getWeekdayStr(d),
                             Easter.dateToReadableStr(d))
     print "(%s ст. ст.)" % Easter.dateToReadableStr(
                             Easter.newToOldStyle(d))
 
+    dd = day_description.DayDescription()
+
     for filename in getCalendarFilenames():
         try:
             CalendarReader.parseCalendar(filename,
-                                          RightDate.RightDate(d),  CV)
+                                          RightDate.RightDate(d),  dd)
         except CalendarReader.CalendarFileError:
             pass
-    print CV.__str__().encode('utf-8')
+
+    console_visualizer.render(dd)
 
 
 if __name__ == '__main__':
