@@ -10,7 +10,7 @@ import console_visualizer
 class  ConsoleVisualizerTestCase(unittest.TestCase):
     def setUp(self):
         self.DD = type("Mock", (object, ), {
-                "get_text": lambda self: [u"ААА", u"БББ"],
+                "get_texts": lambda self: [(u"ААА", 1000), (u"БББ", 1000)],
                 "get_fast": lambda self: u"ВВВ"})()
     
     def test_console_visualizer_(self):

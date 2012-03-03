@@ -16,9 +16,6 @@ class CalendarFileError(Exception):
     pass
 
 
-MAX_SCORE = 1000 # Вес праздника по умолчанию
-
-
 class _CalendarParser(ContentHandler):
     def __init__(self,  dateTester, day_description):
         self.dateTester = dateTester
@@ -27,7 +24,8 @@ class _CalendarParser(ContentHandler):
         self.priority = 0
         self.text = ''
         self.day_description = day_description
-        self.score = MAX_SCORE
+        self.score = self.day_description.MAX_SCORE
+        self.tipikon = ''
 
     def startElement(self, name, attrs):
         if name == 'day':
@@ -35,7 +33,9 @@ class _CalendarParser(ContentHandler):
                     self.dateTester.isRightDate(attrs.get('date'))
 
         elif name == 'text' and self.isRightDate:
-            self.score = int(attrs.get('score',  MAX_SCORE))
+            self.score = int(attrs.get(
+                    'score',  self.day_description.MAX_SCORE))
+            self.tipikon = attrs.get('tipikon',  '')
             self.isText = True
 
         elif name == 'fast' and self.isRightDate:
@@ -49,7 +49,8 @@ class _CalendarParser(ContentHandler):
     def endElement(self, name):
         if name == 'text':
             if self.isRightDate:
-                self.day_description.add_text(self.text,  self.score)
+                self.day_description.add_text(
+                        self.text,  self.score, self.tipikon)
                 self.text = ''
             self.isText = False
 

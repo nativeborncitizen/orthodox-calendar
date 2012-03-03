@@ -5,9 +5,7 @@
 
 import unittest
 import StringIO
-import datetime
 import CalendarReader
-import RightDate
 
 
 class TestCalendarReader(unittest.TestCase):
@@ -16,15 +14,15 @@ class TestCalendarReader(unittest.TestCase):
         self.xml = """<?xml version='1.0' encoding='utf-8'?>
 <days>
     <day date = '01.01'>
-        <text>АА1</text>
+        <text tipikon = '1000'>АА1</text>
         <text score = '0'>АА2</text>
-        <text score = '12'>АА3</text>
+        <text tipikon = '100' score = '12'>АА3</text>
         <fast type='st' priority = '1'/>
     </day>
 </days>"""
 
-        def add_text(self, s, i):
-            self.text.append((s, i))
+        def add_text(self, s, i, t):
+            self.text.append((s, i, t))
 
         def add_fast(self, s, i):
             self.fast.append((s, i))
@@ -33,18 +31,22 @@ class TestCalendarReader(unittest.TestCase):
                 "text": [],
                 "fast": [],
                 "add_text": add_text,
-                "add_fast": add_fast
+                "add_fast": add_fast,
+                "MAX_SCORE": 1000
                 }) ()
+
+        self.DT = type("Mock", (object, ), {
+                "isRightDate": lambda self, d: True
+        }) ()
 
     def testParseCalendar(self):
         """Тест разбора xml-файла"""
-        CalendarReader.parseCalendar(StringIO.StringIO(self.xml),
-                    RightDate.RightDate(datetime.date(2012, 1, 1)),
-                    self.DD, open = lambda s, t: s)
+        CalendarReader.parseCalendar(StringIO.StringIO(self.xml), 
+                self.DT, self.DD, open = lambda s, t: s)
         self.assertEqual(self.DD.text, [
-                (u"АА1", 1000),
-                (u"АА2", 0),
-                (u"АА3", 12),
+                (u"АА1", 1000, '1000'),
+                (u"АА2", 0, ''),
+                (u"АА3", 12, '100')
         ])
         self.assertEqual(self.DD.fast, [
                 ("st", '1')

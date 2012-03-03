@@ -16,7 +16,7 @@ def render(day_description, file_=sys.stdout):
     """
     print >> file_, "%s\n%s" % (day_description.get_fast().encode('utf-8'),
             '\n'.join([
-            str.encode('utf-8') for str in day_description.get_text()])),
+            text[0].encode('utf-8') for text in day_description.get_texts()])),
 
 if __name__ == "__main__":
     pass
