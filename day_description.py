@@ -2,7 +2,6 @@
 """
 Модуль-контейнер для хранения всех атрибутов дня
 """
-from operator import itemgetter
 import fasts_and_hollidays
 
 
@@ -13,27 +12,32 @@ class DayDescription(object):
     """
     Класс-контейнер для хранения информации об атрибутах дня
     """
+    MAX_SCORE = 1000 # Вес праздника по умолчанию
+    
     def __init__(self):
         """
         Инициализация контейнера (без параметров)
         """
-        self._text = []
+        self._texts = []
         self._fast = ('', 0)
 
-    def add_text(self, text,  score):
+    def add_text(self, text,  score,
+            tipikon_sign=""):
         """
         Добавление новой строки с описанием праздника
         вход: строка
         вход: вес для сортировки
-       """
-        self._text.append((text,  score))
+        вход: знак типикона (по умолчанию, без знака)
+        """
+        self._texts.append((text,  score,
+                fasts_and_hollidays.get_holliday_type(tipikon_sign)))
 
-    def get_text(self):
+    def get_texts(self):
         """
         Вернуть список строк описаний праздников, отсортированный по score
         """
-        return map(itemgetter(0),
-                sorted(self._text, key = lambda t: t[1]))
+        return [(text[0], text[2]) for text in
+                sorted(self._texts, key = lambda t: t[1])]
 
     def add_fast(self, fast, priority):
         """

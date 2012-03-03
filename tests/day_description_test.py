@@ -4,6 +4,8 @@
 """
 import unittest
 import day_description
+import fasts_and_hollidays
+
 
 
 class  DayDescriptionTestCase(unittest.TestCase):
@@ -17,7 +19,9 @@ class  DayDescriptionTestCase(unittest.TestCase):
         """Тест контейнера для описания всех атрибутов дня"""
         self.DD.add_text("ААА",  1)
         self.DD.add_text("БББ",  0)
-        self.assertEqual(self.DD.get_text(), ["БББ","ААА"])
+        self.assertEqual(self.DD.get_texts(), [
+            ("БББ", fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT),
+            ("ААА", fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT)])
         self.DD.add_fast("mm",  1)
         self.DD.add_fast("np",  3)
         self.assertEqual(
