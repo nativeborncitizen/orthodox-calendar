@@ -36,8 +36,9 @@ class DayDescription(object):
         """
         Вернуть список строк описаний праздников, отсортированный по score
         """
-        return [(text[0], text[2]) for text in
-                sorted(self._texts, key = lambda t: t[1])]
+        
+        return [(text, tipikon) for text, _, tipikon in
+                sorted(self._replace_score_on_tipikon(), key = lambda t: t[1])]
 
     def add_fast(self, fast, priority):
         """
@@ -55,6 +56,18 @@ class DayDescription(object):
         """
         return fasts_and_hollidays.get_fast_name(self._fast[0])
 
+    def _replace_score_on_tipikon(self):
+        """
+        Вернуть список праздников, в котором, если score не установлен, а есть
+        знак типикона, score заменяется на значение знака
+        """
+        return [(text,
+                tipikon if score == self.MAX_SCORE and \
+                    tipikon != fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT \
+                    else score,
+                tipikon)
+                for text, score, tipikon in self._texts
+                ]
 
 if __name__ == "__main__":
     pass

@@ -32,8 +32,8 @@ TIPIKON_SIGNS = enum(FULL_CROSS = 12, # бдение на великие пра�
         HALF_CROSS = 100, # бдение
         CROSS = 200, # с полиелеем
         SLAVOSLOVIE = 300, # со славословием
-        SHESTERIK = 500,
-        WITHOUT = 1000) # на шесть
+        SHESTERIK = 500, # на шесть
+        WITHOUT = 1000)
 
 # обозначения знаков Типикона в xml-файле
 TIPIKON_XML = {"FC" : TIPIKON_SIGNS.FULL_CROSS,
