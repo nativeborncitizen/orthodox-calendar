@@ -17,11 +17,14 @@ class  DayDescriptionTestCase(unittest.TestCase):
 
     def test_day_description(self):
         """Тест контейнера для описания всех атрибутов дня"""
-        self.DD.add_text("ААА",  1)
+        self.DD.add_text("ААА",  100)
         self.DD.add_text("БББ",  0)
+        self.DD.add_text("ВВВ",  1000, "FC")
         self.assertEqual(self.DD.get_texts(), [
             ("БББ", fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT),
-            ("ААА", fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT)])
+            ("ВВВ", fasts_and_hollidays.TIPIKON_SIGNS.FULL_CROSS),
+            ("ААА", fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT)
+        ])
         self.DD.add_fast("mm",  1)
         self.DD.add_fast("np",  3)
         self.assertEqual(
