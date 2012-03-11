@@ -30,6 +30,16 @@ class  DayDescriptionTestCase(unittest.TestCase):
         self.assertEqual(
             self.DD.get_fast(), u"Нет поста")
 
+    def test_fasts_in_polyeley(self):
+        """Тест определения строгости поста в полиелейные праздники"""
+        self.DD.add_text("ААА", 1000, "HC")
+        self.DD.add_text("ААА", 1000)
+        self.DD.add_text("ААА", 1000, "SL")
+        self.DD.add_fast("st",  1)
+        self.DD.add_fast("ol",  1, self.DD.POLYELEY)
+        self.assertEqual(
+            self.DD.get_fast(), u"Разрешена пища с раститительным маслом")
+
 suite = unittest.TestLoader().loadTestsFromTestCase(
                                                 DayDescriptionTestCase)
 unittest.TextTestRunner(verbosity=2).run(suite)
