@@ -17,11 +17,12 @@ import day_description
 def usage():
     print """cc.py [-c|-f config_file|-d dir_name] [date|-t]
 
+формат даты (date): дд.мм.гггг, по умолчанию дата сегодняшняя
 c - список календарей получить из файла cc.ini;
 f config_file - список календарей получить из файла с именем config_file;
 d dir_name - в качестве списка календарей использовать все xml-файлы из каталога dir_name;
 без параметров - по умолчанию -d xml
-date по умолчанию сегодняшняя"""
+"""
     sys.exit(2)
 
 
