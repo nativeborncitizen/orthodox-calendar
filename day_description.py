@@ -13,6 +13,7 @@ class DayDescription(object):
     Класс-контейнер для хранения информации об атрибутах дня
     """
     MAX_SCORE = 1000 # Вес праздника по умолчанию
+    POLYELEY = True # Уточнение строгости поста в полиелейные праздники
     
     def __init__(self):
         """
@@ -20,6 +21,7 @@ class DayDescription(object):
         """
         self._texts = []
         self._fast = ('', 0)
+        self._polyeley_fast = ('', 0)
 
     def add_text(self, text,  score,
             tipikon_sign=""):
@@ -40,21 +42,35 @@ class DayDescription(object):
         return [(text, tipikon) for text, _, tipikon in
                 sorted(self._replace_score_on_tipikon(), key = lambda t: t[1])]
 
-    def add_fast(self, fast, priority):
+    def add_fast(self, fast, priority, polyeley=False):
         """
-        Добавление информации о посте
-        вход: код поста
-        вход: приоритет поста (сохраняется пост с наибольшим
-                приоритетом
-       """
-        if priority > self._fast[1]:
-           self._fast = (fast, priority)
+        Добавить информацию о посте
+        указывается тип поста в соответствии с типами, описанными в
+        fasts_and_hollidays, приоритет поста и, необязательно, уточнение для
+        полиелейных праздников
+        """
+        def _new_fast(fast_record):
+            if priority > fast_record[1]:
+                return fast, priority
+            else:
+                return fast_record
+
+        if polyeley:
+            self._polyeley_fast = _new_fast(self._polyeley_fast)
+        else:
+            self._fast = _new_fast(self._fast)
 
     def get_fast(self):
         """
         Вернуть описание поста
         """
-        return fasts_and_hollidays.get_fast_name(self._fast[0])
+        if any([tipikon == fasts_and_hollidays.TIPIKON_SIGNS.HALF_CROSS or
+                tipikon == fasts_and_hollidays.TIPIKON_SIGNS.CROSS
+                for _, _, tipikon in self._texts
+            ]) and self._polyeley_fast[0]:
+            return fasts_and_hollidays.get_fast_name(self._polyeley_fast[0])
+        else:
+            return fasts_and_hollidays.get_fast_name(self._fast[0])
 
     def _replace_score_on_tipikon(self):
         """
