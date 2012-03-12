@@ -15,14 +15,18 @@ class  ConsoleVisualizerTestCase(unittest.TestCase):
                         (u"ААА", 1000),
                         (u"БББ", 1000),
                 ],
-                "get_fast": lambda self: u"ВВВ"})()
+                "get_fast": lambda self: u"ВВВ",
+                "get_date": lambda self: u"А",
+                "get_old_style_date": lambda self: u"Б",
+                "get_weekday": lambda self: u"Д",
+        })()
     
     def test_console_visualizer_(self):
         """Тест рендера в консоль"""
         buffer = StringIO.StringIO()
         console_visualizer.render(self.DD, file_=buffer)
         self.assertEqual(buffer.getvalue(),
-                "ВВВ\nААА\nБББ")
+                "Д, А\n(Б ст. ст.)\nВВВ\nААА\nБББ")
 
     def test_render_texts(self):
         """Тест рендера праздников"""

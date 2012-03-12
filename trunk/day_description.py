@@ -3,6 +3,7 @@
 Модуль-контейнер для хранения всех атрибутов дня
 """
 import fasts_and_hollidays
+import Easter
 
 
 __author__="nativeborncitizen@blogspot.com"
@@ -15,13 +16,34 @@ class DayDescription(object):
     MAX_SCORE = 1000 # Вес праздника по умолчанию
     POLYELEY = True # Уточнение строгости поста в полиелейные праздники
     
-    def __init__(self):
+    def __init__(self, date):
         """
-        Инициализация контейнера (без параметров)
+        Инициализация контейнера датой, для которой будет производится
+        построение календаря
         """
         self._texts = []
-        self._fast = ('', 0)
+        self._fast = ('np', 0) # по умолчанию нет поста
         self._polyeley_fast = ('', 0)
+        self._date = date
+
+    def get_date(self):
+        """
+        Геттер для даты расчетного дня в читабельном виде
+        """
+        return Easter.dateToReadableStr(self._date)
+
+    def get_old_style_date(self):
+        """
+        Определение даты расчетного дня по старому стилю в читабельном виде
+        """
+        return Easter.dateToReadableStr(
+                            Easter.newToOldStyle(self._date))
+
+    def get_weekday(self):
+        """
+        Определение дня недели расчетного дня
+        """
+        return Easter.getWeekdayStr(self._date)
 
     def add_text(self, text,  score,
             tipikon_sign=""):

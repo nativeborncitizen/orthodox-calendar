@@ -5,9 +5,8 @@ import sys
 import datetime
 import getopt
 import functools
-import Easter
 import CalendarReader
-import CalendarLocator
+import calendar_locator
 import RightDate
 import console_visualizer
 import day_description
@@ -29,7 +28,7 @@ d dir_name - в качестве списка календарей исполь�
 def main(argv):
     d = datetime.date.today()
     getCalendarFilenames = functools.partial(
-                CalendarLocator.getCalendarFilenamesFromDir, 'xml')
+                calendar_locator.get_calendar_filenames_from_dir, 'xml')
 
     try:
         opts, args = getopt.getopt(argv[1:], "cf:d:")
@@ -41,14 +40,14 @@ def main(argv):
 
         if o == "-c":
             getCalendarFilenames = functools.partial(
-                CalendarLocator.getCalendarFilenamesFromConfig,
+                calendar_locator.get_calendar_filenames_from_config,
                 'cc.ini')
         elif o == "-f":
             getCalendarFilenames = functools.partial(
-                CalendarLocator.getCalendarFilenamesFromConfig, a)
+                calendar_locator.get_calendar_filenames_from_config, a)
         elif o == "-d":
             getCalendarFilenames = functools.partial(
-                CalendarLocator.getCalendarFilenamesFromDir, a)
+                calendar_locator.get_calendar_filenames_from_dir, a)
         else:
             print "%s - ошибочная опция\n" % o
     elif len(opts) > 1:
@@ -64,12 +63,7 @@ def main(argv):
             print "Неверная дата\n"
             usage()
 
-    print "%s, %s" % (Easter.getWeekdayStr(d),
-                            Easter.dateToReadableStr(d))
-    print "(%s ст. ст.)" % Easter.dateToReadableStr(
-                            Easter.newToOldStyle(d))
-
-    dd = day_description.DayDescription()
+    dd = day_description.DayDescription(d)
 
     for filename in getCalendarFilenames():
         try:
