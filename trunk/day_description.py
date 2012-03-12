@@ -64,7 +64,8 @@ class DayDescription(object):
         """
         Вернуть описание поста
         """
-        if any([tipikon == fasts_and_hollidays.TIPIKON_SIGNS.HALF_CROSS or
+        if any([tipikon == fasts_and_hollidays.TIPIKON_SIGNS.FULL_CROSS or
+                tipikon == fasts_and_hollidays.TIPIKON_SIGNS.HALF_CROSS or
                 tipikon == fasts_and_hollidays.TIPIKON_SIGNS.CROSS
                 for _, _, tipikon in self._texts
             ]) and self._polyeley_fast[0]:

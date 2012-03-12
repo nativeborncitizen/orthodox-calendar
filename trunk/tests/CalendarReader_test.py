@@ -18,14 +18,15 @@ class TestCalendarReader(unittest.TestCase):
         <text score = '0'>АА2</text>
         <text tipikon = '100' score = '12'>АА3</text>
         <fast type='st' priority = '1'/>
+        <fast type='ol' polyeley='True' priority = '1'/>
     </day>
 </days>"""
 
         def add_text(self, s, i, t):
             self.text.append((s, i, t))
 
-        def add_fast(self, s, i):
-            self.fast.append((s, i))
+        def add_fast(self, s, i, p=False):
+            self.fast.append((s, i, p))
 
         self.DD = type("Mock", (object, ), {
                 "text": [],
@@ -49,7 +50,8 @@ class TestCalendarReader(unittest.TestCase):
                 (u"АА3", 12, '100')
         ])
         self.assertEqual(self.DD.fast, [
-                ("st", '1')
+                ("st", '1', False),
+                ("ol", '1', True)
         ])
 
 
