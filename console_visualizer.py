@@ -34,8 +34,13 @@ def render(day_description, file_=sys.stdout):
     Отобразить описание атрибутов праздника из объекта day_description
     в буфер file_ (по умолчанию, консоль)
     """
-    print >> file_, "%s\n%s" % (day_description.get_fast().encode('utf-8'),
-            render_texts(day_description.get_texts()).encode('utf-8')),
+    print >> file_, u"%s, %s\n(%s ст. ст.)\n%s\n%s".encode('utf-8') % (
+            day_description.get_weekday().encode('utf-8'),
+            day_description.get_date().encode('utf-8'),
+            day_description.get_old_style_date().encode('utf-8'),
+            day_description.get_fast().encode('utf-8'),
+            render_texts(day_description.get_texts()).encode('utf-8')
+    ),
 
 if __name__ == "__main__":
     pass

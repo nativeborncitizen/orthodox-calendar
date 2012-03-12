@@ -3,6 +3,7 @@
 Тест для модуля, который собирает все атрибуты дня
 """
 import unittest
+import datetime
 import day_description
 import fasts_and_hollidays
 
@@ -13,7 +14,7 @@ class  DayDescriptionTestCase(unittest.TestCase):
     Тестирование сбора атрибутов
     """
     def setUp(self):
-        self.DD = day_description.DayDescription()
+        self.DD = day_description.DayDescription(datetime.date(2012, 3, 8))
 
     def test_day_description(self):
         """Тест контейнера для описания всех атрибутов дня"""
@@ -39,6 +40,12 @@ class  DayDescriptionTestCase(unittest.TestCase):
         self.DD.add_fast("ol",  1, self.DD.POLYELEY)
         self.assertEqual(
             self.DD.get_fast(), u"Разрешена пища с раститительным маслом")
+
+    def test_add_and_get_date(self):
+        """Тест занесения и получения даты в контейнере дня"""
+        self.assertEqual(self.DD.get_date(), u"8 марта 2012")
+        self.assertEqual(self.DD.get_old_style_date(), u"24 февраля 2012")
+        self.assertEqual(self.DD.get_weekday(), u"Четверг")
 
 suite = unittest.TestLoader().loadTestsFromTestCase(
                                                 DayDescriptionTestCase)

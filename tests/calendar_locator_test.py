@@ -7,7 +7,7 @@
 import unittest
 import StringIO
 
-import CalendarLocator
+import calendar_locator
 
 
 class TestCalendarLocator(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestCalendarLocator(unittest.TestCase):
 
     def testLoadCalendars(self):
         self.assertEqual(
-            CalendarLocator.getCalendarFilenamesFromConfig(
+            calendar_locator.get_calendar_filenames_from_config(
             StringIO.StringIO(self.config),
             open = lambda s, t: s), ['c1.xml', 'c2.xml'])
 

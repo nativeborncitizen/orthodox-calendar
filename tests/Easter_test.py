@@ -64,10 +64,11 @@ class TestEaster(unittest.TestCase):
                           datetime.date(2020,  4,  19))
 
     def testDateToReadableStr(self):
+        """Тест конвертации строки в читабельный формат"""
         self.assertEqual(Easter.dateToReadableStr(
-                datetime.date(2020,  4,  19)),  "19 апреля 2020")
+                datetime.date(2020,  4,  19)),  u"19 апреля 2020")
         self.assertEqual(Easter.dateToReadableStr(
-                datetime.date(2020,  1,  19)),  "19 января 2020")
+                datetime.date(2020,  1,  19)),  u"19 января 2020")
 
     def testDateToStr(self):
         self.assertEqual(Easter.dateToStr(
@@ -136,20 +137,21 @@ class TestEaster(unittest.TestCase):
                         datetime.date(2013, 1, 12))
 
     def testGetWeekdayStr(self):
+        """Тест определения дня недели в читабельном формате"""
         self.assertEqual(Easter.getWeekdayStr(
-                    datetime.date(2012, 1, 1)), 'Воскресенье')
+                    datetime.date(2012, 1, 1)), u'Воскресенье')
         self.assertEqual(Easter.getWeekdayStr(
-                    datetime.date(2012, 1, 2)), 'Понедельник')
+                    datetime.date(2012, 1, 2)), u'Понедельник')
         self.assertEqual(Easter.getWeekdayStr(
-                    datetime.date(2012, 1, 3)), 'Вторник')
+                    datetime.date(2012, 1, 3)), u'Вторник')
         self.assertEqual(Easter.getWeekdayStr(
-                    datetime.date(2012, 1, 4)), 'Среда')
+                    datetime.date(2012, 1, 4)), u'Среда')
         self.assertEqual(Easter.getWeekdayStr(
-                    datetime.date(2012, 1, 5)), 'Четверг')
+                    datetime.date(2012, 1, 5)), u'Четверг')
         self.assertEqual(Easter.getWeekdayStr(
-                    datetime.date(2012, 1, 6)), 'Пятница')
+                    datetime.date(2012, 1, 6)), u'Пятница')
         self.assertEqual(Easter.getWeekdayStr(
-                    datetime.date(2012, 1, 7)), 'Суббота')
+                    datetime.date(2012, 1, 7)), u'Суббота')
 
     def testGetWeekdayAfterDist(self):
         self.assertEqual(Easter.getWeekdayAfterDist(3, 6), 3)
