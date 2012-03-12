@@ -9,102 +9,108 @@
     <day date = 'w5'> <!-- Пятница -->
         <fast type='st'/>
     </day>
-    <day date='08.01:18.01'>
+    <day date='08.01:18.01'> <!-- Святки -->
 	<fast type='np' priority='1'/>
-	</day>
-    <day date='E-69:E-62'>
+    </day>
+    <day date='E-69:E-62'> <!-- Предуготовительные недели -->
 	<fast type='np' priority='1'/>
-	</day>
+    </day>
     <day date='E-62:E-55@w3'>
 	<fast type='fi' priority='1'/>
-	</day>
+    </day>
     <day date='E-62:E-55@w5'>
 	<fast type='fi' priority='1'/>
-	</day>
-    <day date='E-55:E-48'>
+    </day>
+    <day date='E-55:E-48'> <!-- Масляница -->
 	<fast type='mm' priority='1'/>
-	</day>
+    </day>
     <day date='E-48:E0'>
         <text>Великий Пост.</text>
 	<fast type='st' priority='1'/>
-	</day>
+    </day>
     <day date='E-48:E0@w6'>
 	<fast type='ol' priority='2'/>
-	</day>
+    </day>
     <day date='E-48:E0@w7'>
 	<fast type='ol' priority='2'/>
-	</day>
+    </day>
+    <day date='E-48:E0@w2'>
+	<fast type='ol' polyeley='True' priority='2'/>
+    </day>
+    <day date='E-48:E0@w4'>
+	<fast type='ol' polyeley='True' priority='2'/>
+    </day>
     <day date='E-48:E0@07.04'>
 	<fast type='fi' priority='4'/>
-	</day>
+    </day>
     <day date='E-48:E0@E-8'>
 	<fast type='ik' priority='3'/>
-	</day>
+    </day>
     <day date='E-48:E0@E-7'>
 	<fast type='fi' priority='3'/>
-	</day>
-    <day date='E0:E8'>
+    </day>
+    <day date='E0:E8'> <!-- Светлая седьмица -->
 	<fast type='np' priority='3'/>
-	</day>
+    </day>
     <day date='14.08:28.08'>
         <text>Успенский Пост.</text>
 	<fast type='st' priority='1'/>
-	</day>
+    </day>
     <day date='19.08'>
 	<fast type='fi' priority='2'/>
-	</day>
+    </day>
     <day date='28.08@w3'>
 	<fast type='fi' priority='1'/>
-	</day>
+    </day>
     <day date='28.08@w5'>
 	<fast type='fi' priority='1'/>
-	</day>
+    </day>
     <day date='28.11:20.12'>
         <text>Рождественский Пост.</text>
 	<fast type='fi' priority='1'/>
-	</day>
+    </day>
     <day date='28.11:20.12@w1'>
 	<fast type='st' priority='2'/>
-	</day>
+    </day>
     <day date='28.11:20.12@w3'>
 	<fast type='st' priority='2'/>
-	</day>
+    </day>
     <day date='28.11:20.12@w5'>
 	<fast type='st' priority='2'/>
-	</day>
+    </day>
     <day date='20.12:06.01'>
         <text>Рождественский Пост.</text>
 	<fast type='st' priority='1'/>
-	</day>
+    </day>
     <day date='20.12:02.01@w6'>
 	<fast type='fi' priority='2'/>
-	</day>
+    </day>
     <day date='20.12:02.01@w7'>
 	<fast type='fi' priority='2'/>
-	</day>
+    </day>
     <day date='18.01'>
 	<fast type='st' priority='2'/>
-	</day>
+    </day>
     <day date='E50:E57'>
 	<fast type='np' priority='2'/>
-	</day>
+    </day>
     <day date='E57:12.07'>
         <text>Петров Пост.</text>
 	<fast type='fi' priority='1'/>
-	</day>
+    </day>
     <day date='E57:12.07@w1'>
 	<fast type='st' priority='2'/>
-	</day>
+    </day>
     <day date='E57:12.07@w3'>
 	<fast type='st' priority='2'/>
-	</day>
+    </day>
     <day date='E57:12.07@w5'>
 	<fast type='st' priority='2'/>
-	</day>
+    </day>
     <day date='11.09'>
 	<fast type='ol' priority='2'/>
-	</day>
+    </day>
     <day date='27.09'>
 	<fast type='ol' priority='2'/>
-	</day>
+    </day>
 </calendar>

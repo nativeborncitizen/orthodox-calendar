@@ -39,8 +39,11 @@ class _CalendarParser(ContentHandler):
             self.isText = True
 
         elif name == 'fast' and self.isRightDate:
-            self.day_description.add_fast(attrs.get('type', ''),
-                                    attrs.get('priority', '0'))
+            self.day_description.add_fast(
+                    attrs.get('type', ''),
+                    attrs.get('priority', '0'),
+                    bool(attrs.get('polyeley', ''))
+            )
 
     def characters(self, char):
         if self.isText:
