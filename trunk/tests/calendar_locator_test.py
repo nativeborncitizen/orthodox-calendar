@@ -19,7 +19,7 @@ class TestCalendarLocator(unittest.TestCase):
         self.assertEqual(
             calendar_locator.get_calendar_filenames_from_config(
             StringIO.StringIO(self.config),
-            open = lambda s, t: s), ['c1.xml', 'c2.xml'])
+            open_ = lambda s, t: s), ['c1.xml', 'c2.xml'])
 
 suite = unittest.TestLoader().loadTestsFromTestCase(
                                                 TestCalendarLocator)
