@@ -4,18 +4,18 @@ import os
 
 import ConfigParser
 
-def get_calendar_filenames_from_config(configFile,  open = open):
+def get_calendar_filenames_from_config(configFile,  open_ = open):
     """
     Получить список xml-файлов из указанного файла конфигурации
     """
     Config = ConfigParser.ConfigParser()
-    Config.readfp(open(configFile, 'r'))
+    Config.readfp(open_(configFile, 'r'))
     return Config.get('Calendar',  'calendars').split(',')
 
 
-def get_calendar_filenames_from_dir(dir):
+def get_calendar_filenames_from_dir(dir_):
     """
     Получить список xml-файлов из указанного каталога
     """
     return map(lambda s: os.path.join('xml', s),
-               filter(lambda s: s[-3:] == 'xml', os.listdir(dir)))
+               filter(lambda s: s[-3:] == 'xml', os.listdir(dir_)))
