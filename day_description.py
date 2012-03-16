@@ -44,6 +44,13 @@ class DayDescription(object):
         Определение дня недели расчетного дня
         """
         return easter.getWeekdayStr(self._date)
+    
+    def get_voice(self):
+        '''
+        Определение гласа по текущей дате
+        '''
+        voice = easter.get_voice(self._date)
+        return u"Глас %s.\n" % voice if voice is not None else ""  
 
     def add_text(self, text, score,
             tipikon_sign=""):
@@ -53,8 +60,13 @@ class DayDescription(object):
         вход: вес для сортировки
         вход: знак типикона (по умолчанию, без знака)
         """
-        self._texts.append((text, score,
-                fasts_and_feasts.get_holliday_type(tipikon_sign)))
+        tipikon = fasts_and_feasts.get_holliday_type(tipikon_sign)
+        self._texts.append((text,
+                    tipikon if score == self.MAX_SCORE and 
+                    tipikon != fasts_and_feasts.TIPIKON_SIGNS.WITHOUT 
+                    else score,
+                    tipikon
+                    ))
 
     def get_texts(self):
         """
@@ -62,7 +74,7 @@ class DayDescription(object):
         """
         
         return [(text, tipikon) for text, _, tipikon in
-                sorted(self._replace_score_on_tipikon(), key=lambda t: t[1])]
+                sorted(self._texts, key=lambda t: t[1])]
 
     def add_fast(self, fast, priority, polyeley=False):
         """
@@ -82,8 +94,6 @@ class DayDescription(object):
         else:
             self._fast = _new_fast(self._fast)
 
-
-
     def get_fast(self):
         """
         Вернуть описание поста
@@ -93,22 +103,9 @@ class DayDescription(object):
                         self._polyeley_fast if self._is_polyeley() and
                             self._polyeley_fast[0] else ('', -1),
                         self._fast,
-                        key = lambda x: x[1]
+                        key=lambda x: x[1]
                     )[0]
                )
-
-    def _replace_score_on_tipikon(self):
-        """
-        Вернуть список праздников, в котором, если score не установлен, а есть
-        знак типикона, score заменяется на значение знака
-        """
-        return [(text,
-                tipikon if score == self.MAX_SCORE and \
-                    tipikon != fasts_and_feasts.TIPIKON_SIGNS.WITHOUT \
-                    else score,
-                tipikon)
-                for text, score, tipikon in self._texts
-                ]
 
     def _is_polyeley(self):
         """

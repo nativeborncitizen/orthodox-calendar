@@ -7,7 +7,7 @@ DAYS_IN_A_WEEK = 7
 DAYS_IN_A_YEAR = 365
 DAYS_IN_A_LEAP_YEAR = 364
 
-def getEasterDate(year):
+def get_Easter_date(year):
     """
     Определение даты Пасхи по формуле К.Ф. Гаусса
     вход: год
@@ -84,7 +84,7 @@ def getEasterDistanceFromDate(date):
     вход: дата
     выход: строка вида E[-]n
     """
-    return 'E%d' % (date - getEasterDate(date.year)).days
+    return 'E%d' % (date - get_Easter_date(date.year)).days
 
 
 def getDateFromEasterDistance(dist, year):
@@ -94,7 +94,7 @@ def getDateFromEasterDistance(dist, year):
     вход: год
     выход: дата
     """
-    return getEasterDate(year) + datetime.timedelta(days =
+    return get_Easter_date(year) + datetime.timedelta(days =
                                                      int(dist[1:]))
 
 
@@ -186,3 +186,25 @@ def shiftDateOnYear(date, years):
     """
     return datetime.date(date.year + years, date.month,
             date.day)
+
+
+def get_voice(date):    
+    '''
+    Определение гласа для указаной даты
+    '''
+    Easter_date = get_Easter_date(date.year)
+    
+    if date < Easter_date:
+        Easter_date_before = get_Easter_date(date.year - 1)
+        Easter_date_after = Easter_date
+    else:
+        Easter_date_before = Easter_date 
+        Easter_date_after = get_Easter_date(date.year + 1)
+        
+    if Easter_date_before < date < \
+            Easter_date_before + datetime.timedelta(days = 7) or \
+            Easter_date_after - datetime.timedelta(days = 7) <= date < \
+            Easter_date_after:
+        return None
+    
+    return (((date - Easter_date_before).days - 7) / 7) % 8 + 1

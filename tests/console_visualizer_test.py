@@ -19,6 +19,7 @@ class  ConsoleVisualizerTestCase(unittest.TestCase):
                 "get_date": lambda self: u"А",
                 "get_old_style_date": lambda self: u"Б",
                 "get_weekday": lambda self: u"Д",
+                "get_voice": lambda self: u"Г\n",
         })()
     
     def test_console_visualizer_(self):
@@ -26,7 +27,7 @@ class  ConsoleVisualizerTestCase(unittest.TestCase):
         buf = StringIO.StringIO()
         console_visualizer.render(self.DD, file_=buf)
         self.assertEqual(buf.getvalue(),
-                "Д, А\n(Б ст. ст.)\nВВВ\nААА\nБББ")
+                "Д, А\n(Б ст. ст.)\nГ\nВВВ\nААА\nБББ")
 
     def test_render_texts(self):
         """Тест рендера праздников"""
