@@ -40,6 +40,14 @@ class  DayDescriptionTestCase(unittest.TestCase):
         self.DD.add_fast("ol",  1, self.DD.POLYELEY)
         self.assertEqual(
             self.DD.get_fast(), u"Разрешена пища с раститительным маслом")
+        
+    def test_test_in_polyeley_with_different_priority(self):
+        """Тест определения строгости поста в дни с разными приоритетами"""
+        self.DD.add_text("ААА", 1000, "FC")
+        self.DD.add_text("БББ", 1000)
+        self.DD.add_fast("ol", 2, self.DD.POLYELEY)
+        self.DD.add_fast("fi", 4)
+        self.assertEqual(self.DD.get_fast(), u"Разрешена рыба")
 
     def test_add_and_get_date(self):
         """Тест занесения и получения даты в контейнере дня"""
