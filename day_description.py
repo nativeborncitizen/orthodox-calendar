@@ -6,8 +6,8 @@ import fasts_and_feasts
 import easter
 
 
-__author__="nativeborncitizen@blogspot.com"
-__date__ ="$1 бер 2012 0:40:17$"
+__author__ = "nativeborncitizen@blogspot.com"
+__date__ = "$1 бер 2012 0:40:17$"
 
 class DayDescription(object):
     """
@@ -45,7 +45,7 @@ class DayDescription(object):
         """
         return easter.getWeekdayStr(self._date)
 
-    def add_text(self, text,  score,
+    def add_text(self, text, score,
             tipikon_sign=""):
         """
         Добавление новой строки с описанием праздника
@@ -53,7 +53,7 @@ class DayDescription(object):
         вход: вес для сортировки
         вход: знак типикона (по умолчанию, без знака)
         """
-        self._texts.append((text,  score,
+        self._texts.append((text, score,
                 fasts_and_feasts.get_holliday_type(tipikon_sign)))
 
     def get_texts(self):
@@ -62,7 +62,7 @@ class DayDescription(object):
         """
         
         return [(text, tipikon) for text, _, tipikon in
-                sorted(self._replace_score_on_tipikon(), key = lambda t: t[1])]
+                sorted(self._replace_score_on_tipikon(), key=lambda t: t[1])]
 
     def add_fast(self, fast, priority, polyeley=False):
         """
@@ -82,18 +82,20 @@ class DayDescription(object):
         else:
             self._fast = _new_fast(self._fast)
 
+
+
     def get_fast(self):
         """
         Вернуть описание поста
         """
-        if any([tipikon == fasts_and_feasts.TIPIKON_SIGNS.FULL_CROSS or
-                tipikon == fasts_and_feasts.TIPIKON_SIGNS.HALF_CROSS or
-                tipikon == fasts_and_feasts.TIPIKON_SIGNS.CROSS
-                for _, _, tipikon in self._texts
-            ]) and self._polyeley_fast[0]:
-            return fasts_and_feasts.get_fast_name(self._polyeley_fast[0])
-        else:
-            return fasts_and_feasts.get_fast_name(self._fast[0])
+        return fasts_and_feasts.get_fast_name(
+                    max(
+                        self._polyeley_fast if self._is_polyeley() and
+                            self._polyeley_fast[0] else ('', -1),
+                        self._fast,
+                        key = lambda x: x[1]
+                    )[0]
+               )
 
     def _replace_score_on_tipikon(self):
         """
@@ -108,5 +110,14 @@ class DayDescription(object):
                 for text, score, tipikon in self._texts
                 ]
 
+    def _is_polyeley(self):
+        """
+        Проверка, есть ли в данный день служба с полиелеем или бдением
+        """
+        return any([tipikon == fasts_and_feasts.TIPIKON_SIGNS.FULL_CROSS or 
+                    tipikon == fasts_and_feasts.TIPIKON_SIGNS.HALF_CROSS or 
+                    tipikon == fasts_and_feasts.TIPIKON_SIGNS.CROSS for 
+                    (_, _, tipikon) in self._texts])
+        
 if __name__ == "__main__":
     pass
