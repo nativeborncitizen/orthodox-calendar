@@ -201,7 +201,7 @@ def get_voice(date):
         Easter_date_before = Easter_date 
         Easter_date_after = get_Easter_date(date.year + 1)
         
-    if Easter_date_before < date < \
+    if Easter_date_before <= date < \
             Easter_date_before + datetime.timedelta(days = 7) or \
             Easter_date_after - datetime.timedelta(days = 7) <= date < \
             Easter_date_after:

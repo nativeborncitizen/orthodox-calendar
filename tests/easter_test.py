@@ -195,6 +195,7 @@ class TestEaster(unittest.TestCase):
     def test_get_voice(self):
         """Тест определения гласа"""
         self.assertEqual(easter.get_voice(datetime.date(2012, 4, 21)), None)
+        self.assertEqual(easter.get_voice(datetime.date(2012, 4, 15)), None)
         self.assertEqual(easter.get_voice(datetime.date(2012, 4, 22)), 1)
         self.assertEqual(easter.get_voice(datetime.date(2012, 6, 2)), 6)
         self.assertEqual(easter.get_voice(datetime.date(2012, 6, 3)), 7)
