@@ -5,7 +5,7 @@
 import StringIO
 import unittest
 import console_visualizer
-import fasts_and_hollidays
+import fasts_and_feasts
 
 
 class  ConsoleVisualizerTestCase(unittest.TestCase):
@@ -23,16 +23,16 @@ class  ConsoleVisualizerTestCase(unittest.TestCase):
     
     def test_console_visualizer_(self):
         """Тест рендера в консоль"""
-        buffer = StringIO.StringIO()
-        console_visualizer.render(self.DD, file_=buffer)
-        self.assertEqual(buffer.getvalue(),
+        buf = StringIO.StringIO()
+        console_visualizer.render(self.DD, file_=buf)
+        self.assertEqual(buf.getvalue(),
                 "Д, А\n(Б ст. ст.)\nВВВ\nААА\nБББ")
 
     def test_render_texts(self):
         """Тест рендера праздников"""
         self.assertEqual(console_visualizer.render_texts([
                 (u"ААА", 1000),
-                (u"ВВВ", fasts_and_hollidays.TIPIKON_SIGNS.FULL_CROSS),
+                (u"ВВВ", fasts_and_feasts.TIPIKON_SIGNS.FULL_CROSS),
                 ]),
                 u"ААА\n(+) ВВВ")
 

@@ -2,8 +2,8 @@
 """
 Модуль-контейнер для хранения всех атрибутов дня
 """
-import fasts_and_hollidays
-import Easter
+import fasts_and_feasts
+import easter
 
 
 __author__="nativeborncitizen@blogspot.com"
@@ -30,20 +30,20 @@ class DayDescription(object):
         """
         Геттер для даты расчетного дня в читабельном виде
         """
-        return Easter.dateToReadableStr(self._date)
+        return easter.dateToReadableStr(self._date)
 
     def get_old_style_date(self):
         """
         Определение даты расчетного дня по старому стилю в читабельном виде
         """
-        return Easter.dateToReadableStr(
-                            Easter.newToOldStyle(self._date))
+        return easter.dateToReadableStr(
+                            easter.newToOldStyle(self._date))
 
     def get_weekday(self):
         """
         Определение дня недели расчетного дня
         """
-        return Easter.getWeekdayStr(self._date)
+        return easter.getWeekdayStr(self._date)
 
     def add_text(self, text,  score,
             tipikon_sign=""):
@@ -54,7 +54,7 @@ class DayDescription(object):
         вход: знак типикона (по умолчанию, без знака)
         """
         self._texts.append((text,  score,
-                fasts_and_hollidays.get_holliday_type(tipikon_sign)))
+                fasts_and_feasts.get_holliday_type(tipikon_sign)))
 
     def get_texts(self):
         """
@@ -68,7 +68,7 @@ class DayDescription(object):
         """
         Добавить информацию о посте
         указывается тип поста в соответствии с типами, описанными в
-        fasts_and_hollidays, приоритет поста и, необязательно, уточнение для
+        fasts_and_feasts, приоритет поста и, необязательно, уточнение для
         полиелейных праздников
         """
         def _new_fast(fast_record):
@@ -86,14 +86,14 @@ class DayDescription(object):
         """
         Вернуть описание поста
         """
-        if any([tipikon == fasts_and_hollidays.TIPIKON_SIGNS.FULL_CROSS or
-                tipikon == fasts_and_hollidays.TIPIKON_SIGNS.HALF_CROSS or
-                tipikon == fasts_and_hollidays.TIPIKON_SIGNS.CROSS
+        if any([tipikon == fasts_and_feasts.TIPIKON_SIGNS.FULL_CROSS or
+                tipikon == fasts_and_feasts.TIPIKON_SIGNS.HALF_CROSS or
+                tipikon == fasts_and_feasts.TIPIKON_SIGNS.CROSS
                 for _, _, tipikon in self._texts
             ]) and self._polyeley_fast[0]:
-            return fasts_and_hollidays.get_fast_name(self._polyeley_fast[0])
+            return fasts_and_feasts.get_fast_name(self._polyeley_fast[0])
         else:
-            return fasts_and_hollidays.get_fast_name(self._fast[0])
+            return fasts_and_feasts.get_fast_name(self._fast[0])
 
     def _replace_score_on_tipikon(self):
         """
@@ -102,7 +102,7 @@ class DayDescription(object):
         """
         return [(text,
                 tipikon if score == self.MAX_SCORE and \
-                    tipikon != fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT \
+                    tipikon != fasts_and_feasts.TIPIKON_SIGNS.WITHOUT \
                     else score,
                 tipikon)
                 for text, score, tipikon in self._texts

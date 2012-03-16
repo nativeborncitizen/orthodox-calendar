@@ -7,7 +7,6 @@ DAYS_IN_A_WEEK = 7
 DAYS_IN_A_YEAR = 365
 DAYS_IN_A_LEAP_YEAR = 364
 
-
 def getEasterDate(year):
     """
     Определение даты Пасхи по формуле К.Ф. Гаусса
@@ -24,8 +23,7 @@ def getEasterDate(year):
     LOW_EASTER_RANGE = datetime.date(year,  4,  4)
     HIGH_EASTER_RANGE = datetime.date(year,  5,  8)
 
-    if  d < LOW_EASTER_RANGE or d > HIGH_EASTER_RANGE:
-        raise EasterOutOfRange
+    assert(d >= LOW_EASTER_RANGE and d <= HIGH_EASTER_RANGE)
 
     return d
 

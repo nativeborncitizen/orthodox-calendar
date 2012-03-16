@@ -5,7 +5,7 @@
 
 import unittest
 import StringIO
-import CalendarReader
+import calendar_reader
 
 
 class TestCalendarReader(unittest.TestCase):
@@ -42,8 +42,8 @@ class TestCalendarReader(unittest.TestCase):
 
     def testParseCalendar(self):
         """Тест разбора xml-файла"""
-        CalendarReader.parseCalendar(StringIO.StringIO(self.xml), 
-                self.DT, self.DD, open = lambda s, t: s)
+        calendar_reader.parseCalendar(StringIO.StringIO(self.xml), 
+                self.DT, self.DD, open_ = lambda s, t: s)
         self.assertEqual(self.DD.text, [
                 (u"АА1", 1000, '1000'),
                 (u"АА2", 0, ''),

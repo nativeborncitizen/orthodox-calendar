@@ -5,7 +5,7 @@
 import unittest
 import datetime
 import day_description
-import fasts_and_hollidays
+import fasts_and_feasts
 
 
 
@@ -22,9 +22,9 @@ class  DayDescriptionTestCase(unittest.TestCase):
         self.DD.add_text("БББ",  0)
         self.DD.add_text("ВВВ",  1000, "FC")
         self.assertEqual(self.DD.get_texts(), [
-            ("БББ", fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT),
-            ("ВВВ", fasts_and_hollidays.TIPIKON_SIGNS.FULL_CROSS),
-            ("ААА", fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT)
+            ("БББ", fasts_and_feasts.TIPIKON_SIGNS.WITHOUT),
+            ("ВВВ", fasts_and_feasts.TIPIKON_SIGNS.FULL_CROSS),
+            ("ААА", fasts_and_feasts.TIPIKON_SIGNS.WITHOUT)
         ])
         self.DD.add_fast("mm",  1)
         self.DD.add_fast("np",  3)

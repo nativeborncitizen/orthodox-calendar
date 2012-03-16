@@ -61,9 +61,9 @@ class _CalendarParser(ContentHandler):
             self.isRightDate = False
 
 
-def parseCalendar(filename, dateTester, day_description, open=open):
+def parseCalendar(filename, dateTester, day_description, open_=open):
     """
-    Ищет в календаре совпадения с датой из списка дат
+    Найти в календаре совпадения с датой из списка дат
     вход: имя xml-файла с календарем и список дат
     выход: строка найденных соответствий
     """
@@ -72,7 +72,7 @@ def parseCalendar(filename, dateTester, day_description, open=open):
     parser.setContentHandler(Handler)
 
     try:
-        parser.parse(open(filename, 'r'))
+        parser.parse(open_(filename, 'r'))
     except:
         raise CalendarFileError
 

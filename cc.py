@@ -5,9 +5,9 @@ import sys
 import datetime
 import getopt
 import functools
-import CalendarReader
+import calendar_reader
 import calendar_locator
-import RightDate
+import right_date
 import console_visualizer
 import day_description
 
@@ -32,7 +32,7 @@ def main(argv):
 
     try:
         opts, args = getopt.getopt(argv[1:], "cf:d:")
-    except getopt.GetoptError, err:
+    except getopt.GetoptError:
         usage()
 
     if len(opts) == 1:
@@ -67,9 +67,9 @@ def main(argv):
 
     for filename in getCalendarFilenames():
         try:
-            CalendarReader.parseCalendar(filename,
-                                          RightDate.RightDate(d),  dd)
-        except CalendarReader.CalendarFileError:
+            calendar_reader.parseCalendar(filename,
+                                          right_date.RightDate(d),  dd)
+        except calendar_reader.CalendarFileError:
             pass
 
     console_visualizer.render(dd)
