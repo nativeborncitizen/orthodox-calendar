@@ -50,10 +50,11 @@ class  DayDescriptionTestCase(unittest.TestCase):
         self.assertEqual(self.DD.get_fast(), u"Разрешена рыба")
 
     def test_add_and_get_date(self):
-        """Тест занесения и получения даты в контейнере дня"""
+        """Тест занесения и получения даты и гласа в контейнере дня"""
         self.assertEqual(self.DD.get_date(), u"8 марта 2012")
         self.assertEqual(self.DD.get_old_style_date(), u"24 февраля 2012")
         self.assertEqual(self.DD.get_weekday(), u"Четверг")
+        self.assertEqual(self.DD.get_voice(), u"Глас 5.\n")
 
 suite = unittest.TestLoader().loadTestsFromTestCase(
                                                 DayDescriptionTestCase)
