@@ -6,7 +6,7 @@
 import datetime
 import re
 
-import Easter
+import easter
 
 
 # E[-]n
@@ -22,13 +22,13 @@ WEEKDAY_NEAREST_DATE = re.compile('(\d\d)\.(\d\d)~w([1-7])')
 WEEKDAY = re.compile('w[1-7]')
 
 
-def isStringFitInFormat(s, format):
+def isStringFitInFormat(s, pattern):
     """
     Проверка текста на соответствие формату
     вход: строка, формат
     выход: True/False
     """
-    return format.match(s) is not None
+    return pattern.match(s) is not None
 
 
 class RightDate:
@@ -42,8 +42,8 @@ class RightDate:
         вход: дата, для которой нужно получить календарь
        """
         self.date = date
-        self.strDate = Easter.dateToStr(date)
-        self.distEaster = Easter.getEasterDistanceFromDate(date)
+        self.strDate = easter.dateToStr(date)
+        self.distEaster = easter.getEasterDistanceFromDate(date)
 
     def isRightDate(self,  xmlDate):
         """
@@ -91,9 +91,9 @@ class RightDate:
         выход: дата для года расчетной даты
        """
         if isStringFitInFormat(strDate, DATE):
-            return Easter.strToDate(strDate, self.date.year)
+            return easter.strToDate(strDate, self.date.year)
         elif isStringFitInFormat(strDate, EASTER):
-            return Easter.getDateFromEasterDistance(strDate,
+            return easter.getDateFromEasterDistance(strDate,
                                                 self.date.year)
         else:
             return None
@@ -117,10 +117,10 @@ class RightDate:
 
         if dateBefore > dateAfter:
             try:
-                return Easter.shiftDateOnYear(dateBefore, -1) \
+                return easter.shiftDateOnYear(dateBefore, -1) \
                             <= self.date < dateAfter or\
                         dateBefore <= self.date < \
-                            Easter.shiftDateOnYear(dateAfter, 1)
+                            easter.shiftDateOnYear(dateAfter, 1)
             except ValueError:
                 return False
         else:
@@ -141,8 +141,8 @@ class RightDate:
 
         sign_value = 1 if sign == '+' else -1
 
-        passDate = Easter.dateToStr(
-                Easter.getWeekdayFromDate(date,
+        passDate = easter.dateToStr(
+                easter.getWeekdayFromDate(date,
                     int(weeks_count), int(weekday), sign_value))
 
         return self.strDate == passDate
@@ -160,7 +160,7 @@ class RightDate:
         date = datetime.date(self.date.year,
                                 int(month), int(day))
 
-        passDate = Easter.dateToStr(
-                Easter.getNearestWeekday(date, int(weekday)))
+        passDate = easter.dateToStr(
+                easter.getNearestWeekday(date, int(weekday)))
 
         return self.strDate == passDate

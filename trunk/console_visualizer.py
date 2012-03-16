@@ -7,16 +7,16 @@ __author__="nativeborncitizen@blogspot.com"
 __date__ ="$1 бер 2012 23:46:38$"
 
 import sys
-import fasts_and_hollidays
+import fasts_and_feasts
 
 # Константы для отображения знаков типикона в консоли по аналогии с
 # http://www.canto.ru/calendar/help.php?id=signs
-TIPIKON_SIGNS_DISPLAY = {fasts_and_hollidays.TIPIKON_SIGNS.FULL_CROSS : "(+)",
-        fasts_and_hollidays.TIPIKON_SIGNS.HALF_CROSS : "+)",
-        fasts_and_hollidays.TIPIKON_SIGNS.CROSS : "+",
-        fasts_and_hollidays.TIPIKON_SIGNS.SLAVOSLOVIE : "[[:.",
-        fasts_and_hollidays.TIPIKON_SIGNS.SHESTERIK : "[:.",
-        fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT : ""
+TIPIKON_SIGNS_DISPLAY = {fasts_and_feasts.TIPIKON_SIGNS.FULL_CROSS : "(+)",
+        fasts_and_feasts.TIPIKON_SIGNS.HALF_CROSS : "+)",
+        fasts_and_feasts.TIPIKON_SIGNS.CROSS : "+",
+        fasts_and_feasts.TIPIKON_SIGNS.SLAVOSLOVIE : "[[:.",
+        fasts_and_feasts.TIPIKON_SIGNS.SHESTERIK : "[:.",
+        fasts_and_feasts.TIPIKON_SIGNS.WITHOUT : ""
 }
 
 def render_texts(texts):
@@ -26,7 +26,7 @@ def render_texts(texts):
     """
     return '\n'.join([
             "%s %s" % (TIPIKON_SIGNS_DISPLAY[tipikon], text) \
-            if tipikon != fasts_and_hollidays.TIPIKON_SIGNS.WITHOUT else \
+            if tipikon != fasts_and_feasts.TIPIKON_SIGNS.WITHOUT else \
             text for text, tipikon in texts])
 
 def render(day_description, file_=sys.stdout):
