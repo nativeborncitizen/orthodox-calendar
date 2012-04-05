@@ -4,8 +4,8 @@
 """
 import StringIO
 import unittest
-import console_visualizer
-import fasts_and_feasts
+from church_calendar import console_visualizer
+from church_calendar import fasts_and_feasts
 
 
 class  ConsoleVisualizerTestCase(unittest.TestCase):

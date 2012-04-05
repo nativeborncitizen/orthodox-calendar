@@ -6,7 +6,7 @@
 import datetime
 import unittest
 
-import easter
+from church_calendar import easter
 
 
 class TestEaster(unittest.TestCase):
@@ -205,6 +205,18 @@ class TestEaster(unittest.TestCase):
         self.assertEqual(easter.get_voice(datetime.date(2012, 6, 10)), 8)
         self.assertEqual(easter.get_voice(datetime.date(2013, 4, 21)), 5)
         self.assertEqual(easter.get_voice(datetime.date(2012, 4, 8)), None)
+        
+    def test_get_week_after_Easter(self):
+        '''Тест определения номера недели после Пасхи'''
+        self.assertEqual(easter.get_week_after_Easter(
+                datetime.date(2012, 4, 22)), 2)
+        self.assertEqual(easter.get_week_after_Easter(
+                datetime.date(2012, 4, 28)), 2)
+        self.assertEqual(easter.get_week_after_Easter(
+                datetime.date(2012, 4, 29)), 3)
+        self.assertEqual(easter.get_week_after_Easter(
+                datetime.date(2012, 2, 1)), 41)
+        
 
 suite = unittest.TestLoader().loadTestsFromTestCase(
                                                 TestEaster)

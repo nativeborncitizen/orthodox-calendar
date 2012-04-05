@@ -6,7 +6,7 @@
 
 import unittest
 
-import fasts_and_feasts
+from church_calendar import fasts_and_feasts
 
 class TestFasts(unittest.TestCase):
 

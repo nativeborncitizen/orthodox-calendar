@@ -5,7 +5,7 @@
 
 import unittest
 import StringIO
-import calendar_reader
+from church_calendar import calendar_reader
 
 
 class TestCalendarReader(unittest.TestCase):

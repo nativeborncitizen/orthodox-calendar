@@ -207,4 +207,14 @@ def get_voice(date):
             Easter_date_after:
         return None
     
-    return (((date - Easter_date_before).days - 7) / 7) % 8 + 1
+    return (((date - Easter_date_before).days - 7) // 7) % 8 + 1
+
+
+def get_week_after_Easter(date):
+    '''
+    Определение номера недели после Пасхи
+    '''
+    year = date.year - 1 if date <= get_Easter_date(date.year) else date.year
+    return (date - get_Easter_date(year)).days // 7 + 1
+
+
