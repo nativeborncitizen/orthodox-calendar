@@ -7,7 +7,7 @@
 import unittest
 import StringIO
 
-import calendar_locator
+from church_calendar import calendar_locator
 
 
 class TestCalendarLocator(unittest.TestCase):

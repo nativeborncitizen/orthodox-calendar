@@ -4,8 +4,8 @@
 """
 import unittest
 import datetime
-import day_description
-import fasts_and_feasts
+from church_calendar import day_description
+from church_calendar import fasts_and_feasts
 
 
 

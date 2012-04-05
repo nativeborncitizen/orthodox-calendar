@@ -7,7 +7,7 @@
 import unittest
 import datetime
 
-import right_date
+from church_calendar import right_date
 
 class TestRightDate(unittest.TestCase):
     def testRightDate(self):

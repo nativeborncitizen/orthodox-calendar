@@ -5,11 +5,11 @@ import sys
 import datetime
 import getopt
 import functools
-import calendar_reader
-import calendar_locator
-import right_date
-import console_visualizer
-import day_description
+import church_calendar.calendar_reader
+import church_calendar.calendar_locator
+import church_calendar.right_date
+import church_calendar.console_visualizer
+import church_calendar.day_description
 
 
 
@@ -28,7 +28,7 @@ d dir_name - в качестве списка календарей исполь�
 def main(argv):
     d = datetime.date.today()
     getCalendarFilenames = functools.partial(
-                calendar_locator.get_calendar_filenames_from_dir, 'xml')
+                church_calendar.calendar_locator.get_calendar_filenames_from_dir, 'xml')
 
     try:
         opts, args = getopt.getopt(argv[1:], "cf:d:")
@@ -40,14 +40,14 @@ def main(argv):
 
         if o == "-c":
             getCalendarFilenames = functools.partial(
-                calendar_locator.get_calendar_filenames_from_config,
+                church_calendar.calendar_locator.get_calendar_filenames_from_config,
                 'cc.ini')
         elif o == "-f":
             getCalendarFilenames = functools.partial(
-                calendar_locator.get_calendar_filenames_from_config, a)
+                church_calendar.calendar_locator.get_calendar_filenames_from_config, a)
         elif o == "-d":
             getCalendarFilenames = functools.partial(
-                calendar_locator.get_calendar_filenames_from_dir, a)
+                church_calendar.calendar_locator.get_calendar_filenames_from_dir, a)
         else:
             print "%s - ошибочная опция\n" % o
     elif len(opts) > 1:
@@ -63,17 +63,16 @@ def main(argv):
             print "Неверная дата\n"
             usage()
 
-    dd = day_description.DayDescription(d)
+    dd = church_calendar.day_description.DayDescription(d)
 
     for filename in getCalendarFilenames():
         try:
-            calendar_reader.parseCalendar(filename,
-                                          right_date.RightDate(d),  dd)
-        except calendar_reader.CalendarFileError:
+            church_calendar.calendar_reader.parseCalendar(filename,
+                                          church_calendar.right_date.RightDate(d),  dd)
+        except church_calendar.calendar_reader.CalendarFileError:
             pass
 
-    console_visualizer.render(dd)
-
+    church_calendar.console_visualizer.render(dd)
 
 if __name__ == '__main__':
     main(sys.argv)
